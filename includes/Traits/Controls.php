@@ -476,7 +476,28 @@ trait Controls
                             'center' => esc_html__('Center', 'essential-addons-for-elementor-lite'),
                             'right' => esc_html__('Left', 'essential-addons-for-elementor-lite'),
                         ],
-                        'default' => 'center',
+                    ]
+                );
+
+                $wb->add_control(
+                    'content_timeline_start_alignment',
+                    [
+                        'label' => esc_html__('Start Index', 'essential-addons-for-elementor-lite'),
+                        'type' => Controls_Manager::CHOOSE,
+                        'default' => 'left',
+	                    'options' => [
+		                    'left' => [
+			                    'title' => __('Left', 'essential-addons-for-elementor-lite'),
+			                    'icon' => 'fa fa-align-left',
+		                    ],
+		                    'right' => [
+			                    'title' => __('Right', 'essential-addons-for-elementor-lite'),
+			                    'icon' => 'fa fa-align-right',
+		                    ],
+	                    ],
+	                    'condition' => [
+	                    	'content_timeline_layout' => 'center',
+	                    ]
                     ]
                 );
 
@@ -635,6 +656,21 @@ trait Controls
             );
 
         }
+
+        $wb->add_control(
+            'eael_show_featured_image',
+            [
+                'label' => __('Show Featured Image', 'essential-addons-for-elementor-lite'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Show', 'essential-addons-for-elementor-lite'),
+                'label_off' => __('Hide', 'essential-addons-for-elementor-lite'),
+                'return_value' => 'yes',
+                'default' => 'yes',
+	            'condition'=> [
+	            	'eael_content_timeline_choose' => 'dynamic',
+	            ],
+            ]
+        );
 
         $wb->add_control(
             'eael_show_title',
