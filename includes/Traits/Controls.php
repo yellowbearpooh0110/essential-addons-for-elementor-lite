@@ -496,7 +496,7 @@ trait Controls
 		                    ],
 	                    ],
 	                    'condition' => [
-	                    	'content_timeline_display_type' => 'Vertical',
+	                    	'content_timeline_display_type' => 'vertical',
 	                    	'content_timeline_layout' => 'center',
 	                    ]
                     ]
