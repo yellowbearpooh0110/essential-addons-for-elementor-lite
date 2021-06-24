@@ -2613,6 +2613,6 @@
 .woocommerce ul.products li.product .ast-shop-product-out-of-stock, .woocommerce-page ul.products li.product .ast-shop-product-out-of-stock {
   display: none;
 }
-.woocommerce.eael-product-popup-ready div.product div.woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n+1) {
-  clear: unset;
+.woocommerce.eael-product-popup-ready div.product div.woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n) {
+  margin-right: 0;
 }
