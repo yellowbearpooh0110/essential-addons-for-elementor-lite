@@ -24,7 +24,7 @@ trait Helper
     {
         $ajax   = wp_doing_ajax();
 
-        parse_str($_REQUEST['args'], $args);
+        parse_str($_POST['args'], $args);
         if ( empty( $_POST['nonce'] ) ) {
             $err_msg = __( 'Insecure form submitted without security token', 'essential-addons-for-elementor-lite' );
             if ( $ajax ) {
@@ -98,20 +98,30 @@ trait Helper
 
         }
 
+        $link_settings = [
+            'image_link_nofollow' => $settings['image_link_nofollow'] ? 'rel="nofollow"' : '',
+            'image_link_target_blank' => $settings['image_link_target_blank'] ? 'target="_blank"' : '',
+            'title_link_nofollow' => $settings['title_link_nofollow'] ? 'rel="nofollow"' : '',
+            'title_link_target_blank' => $settings['title_link_target_blank'] ? 'target="_blank"' : '',
+            'read_more_link_nofollow' => $settings['read_more_link_nofollow'] ? 'rel="nofollow"' : '',
+            'read_more_link_target_blank' => $settings['read_more_link_target_blank'] ? 'target="_blank"' : '',
+        ];
+
         $template_info = $_REQUEST['template_info'];
 
 
         if ( $template_info ) {
-            if ( $template_info[ 'dir' ] === 'free' ) {
-                $file_path = EAEL_PLUGIN_PATH;
-            }
 
-            if ( $template_info[ 'dir' ] === 'pro' ) {
-                $file_path = EAEL_PRO_PLUGIN_PATH;
+	        if ( $template_info[ 'dir' ] === 'theme' ) {
+		        $file_path = $this->retrive_theme_path();
+	        } else if($template_info[ 'dir' ] === 'pro') {
+		        $file_path = sprintf("%sincludes",EAEL_PRO_PLUGIN_PATH);
+            } else {
+		        $file_path = sprintf("%sincludes",EAEL_PLUGIN_PATH);
             }
 
             $file_path = sprintf(
-                '%sincludes/Template/%s/%s.php',
+                '%s/Template/%s/%s',
                 $file_path,
                 $template_info[ 'name' ],
                 $template_info[ 'file_name' ]
@@ -139,7 +149,7 @@ trait Helper
                     while ( $query->have_posts() ) {
                         $query->the_post();
 
-                        $html .= HelperClass::include_with_variable( $file_path, [ 'settings' => $settings, 'iterator' => $iterator ] );
+                        $html .= HelperClass::include_with_variable( $file_path, [ 'settings' => $settings, 'link_settings' => $link_settings, 'iterator' => $iterator ] );
                         $iterator++;
                     }
                 }
@@ -376,7 +386,7 @@ trait Helper
             }
 
             if ( $settings[ 'eael_twitter_feed_show_read_more' ] == 'true' ) {
-                $html .= '<a href="//twitter.com/' . $item[ 'user' ][ 'screen_name' ] . '/status/' . $item[ 'id_str' ] . '" target="_blank" class="read-more-link">Read More <i class="fas fa-angle-double-right"></i></a>';
+                $html .= '<a href="//twitter.com/' . $item[ 'user' ][ 'screen_name' ] . '/status/' . $item[ 'id_str' ] . '" target="_blank" class="read-more-link">'.$settings['eael_twitter_feed_show_read_more_text'].' <i class="fas fa-angle-double-right"></i></a>';
             }
             $html .= '</div>
                     ' . ( isset( $item[ 'extended_entities' ][ 'media' ][ 0 ] ) && $settings[ 'eael_twitter_feed_media' ] == 'true' ? ( $item[ 'extended_entities' ][ 'media' ][ 0 ][ 'type' ] == 'photo' ? '<img src="' . $item[ 'extended_entities' ][ 'media' ][ 0 ][ 'media_url_https' ] . '">' : '' ) : '' ) . '
@@ -509,7 +519,7 @@ trait Helper
             'data-nonce'     => wp_create_nonce( 'load_more' ),
             'data-template'  => json_encode([
                 'dir'   => $plugin_type,
-                'file_name' => $settings['eael_dynamic_template_Layout'],
+                'file_name' => $settings['loadable_file_name'],
                 'name' => $this->process_directory_name() ],
                 1),
             'data-class'    => get_class( $this ),
@@ -843,6 +853,36 @@ trait Helper
 
 	    wp_send_json_success( $data );
     }
+
+    /**
+	 * return file path which are store in theme Template directory
+	 * @param $file
+	 */
+	public function retrive_theme_path() {
+		$current_theme = wp_get_theme();
+		return sprintf(
+			'%s/%s',
+			$current_theme->theme_root,
+			$current_theme->stylesheet
+		);
+	}
+
+	/**
+	 * @param string $tag
+	 * @param string $function_to_remove
+	 * @param int|string $priority
+	 */
+	public function eael_forcefully_remove_action( $tag, $function_to_remove, $priority ) {
+		global $wp_filter;
+		if (  isset( $wp_filter[ $tag ][ $priority ] ) &&  is_array( $wp_filter[ $tag ][ $priority ] ) ) {
+			foreach ( $wp_filter[ $tag ][ $priority ] as $callback_function => $registration ) {
+				if ( strlen( $callback_function ) > 32 && strpos( $callback_function, $function_to_remove, 32 ) !== false || $callback_function === $function_to_remove ) {
+					remove_action( $tag, $callback_function, $priority );
+					break;
+				}
+			}
+		}
+	}
 	
 }
 

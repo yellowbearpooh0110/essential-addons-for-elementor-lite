@@ -1,11 +1,13 @@
 <?php
 
-use \Essential_Addons_Elementor\Classes\Helper;
+
 /**
  * Template Name: Default
  */
 
+use \Essential_Addons_Elementor\Classes\Helper;
 use Essential_Addons_Elementor\Elements\Product_Grid;
+use \Elementor\Group_Control_Image_Size;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -15,6 +17,15 @@ $product = wc_get_product( get_the_ID() );
 if ( ! $product ) {
     error_log( '$product not found in ' . __FILE__ );
     return;
+}
+
+
+if ( has_post_thumbnail() ) {
+	$settings[ 'eael_image_size_customize' ] = [
+		'id' => get_post_thumbnail_id(),
+	];
+	$settings['eael_image_size_customize_size'] = $settings['eael_product_grid_image_size_size'];
+	$thumbnail_html = Group_Control_Image_Size::get_attachment_image_html( $settings,'eael_image_size_customize' );
 }
 
 $title_tag = isset( $settings['eael_product_grid_title_html_tag'] ) ? Helper::eael_validate_html_tag($settings['eael_product_grid_title_html_tag'])  : 'h2';
@@ -30,6 +41,10 @@ $should_print_quick_view = isset( $settings['eael_product_grid_quick_view'] ) &&
 $should_print_price = isset( $settings['eael_product_grid_price'] ) && 'yes' === $settings['eael_product_grid_price'];
 $should_print_excerpt = isset( $settings['eael_product_grid_excerpt'] ) && ('yes' === $settings['eael_product_grid_excerpt'] && has_excerpt());
 $widget_id = isset($settings['eael_widget_id']) ? $settings['eael_widget_id'] : null;
+
+$sale_badge_text = !empty($settings['eael_product_sale_text']) ? $settings['eael_product_sale_text'] :  __( 'Sale!', 'essential-addons-for-elementor-lite' );
+$stock_out_badge_text = !empty($settings['eael_product_stockout_text']) ?$settings['eael_product_stockout_text'] : __( 'Stock <br/> Out', 'essential-addons-for-elementor-lite' );
+
 $quick_view_setting = [
 	'widget_id' => $widget_id,
 	'product_id' => $product->get_id(),
@@ -44,9 +59,9 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
                 echo wp_kses_post( wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() ) );
             }
             if ( ! $product->managing_stock() && ! $product->is_in_stock() ) {
-                printf( '<span class="outofstock-badge">%s</span>', __( 'Stock <br/> Out', 'essential-addons-for-elementor-lite' ) );
+                printf( '<span class="outofstock-badge">%s</span>', $stock_out_badge_text );
             } elseif ( $product->is_on_sale() ) {
-                printf( '<span class="onsale">%s</span>', __( 'Sale!', 'essential-addons-for-elementor-lite' ) );
+                printf( '<span class="onsale">%s</span>', $sale_badge_text );
             }
 
             if ( $should_print_price ) {
@@ -83,11 +98,13 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
         if ( $should_print_rating ) {
             echo wc_get_rating_html( $product->get_average_rating(), $product->get_rating_count() );
         }
+
         if ( ! $product->managing_stock() && ! $product->is_in_stock() ) {
-            printf( '<span class="outofstock-badge">%s</span>', __( 'Stock <br/> Out', 'essential-addons-for-elementor-lite' ) );
+	        printf( '<span class="outofstock-badge">%s</span>', $stock_out_badge_text );
         } elseif ( $product->is_on_sale() ) {
-            printf( '<span class="onsale">%s</span>', __( 'Sale!', 'essential-addons-for-elementor-lite' ) );
+	        printf( '<span class="onsale">%s</span>', $sale_badge_text );
         }
+
         if ( $should_print_price ) {
           echo '<div class="eael-product-price">'.$product->get_price_html().'</div>';
         }
@@ -102,7 +119,7 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
                 <div class="product-image-wrap">
                     <div class="image-wrap">
                         <?php
-                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.__('Stock ', 'essential-addons-for-elementor-lite'). '<br />' . __('Out', 'essential-addons-for-elementor-lite').'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . __('Sale!', 'essential-addons-for-elementor-lite') . '</span>' : '') );
+                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.$stock_out_badge_text.'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . $sale_badge_text . '</span>' : '') );
                         echo $product->get_image($settings['eael_product_grid_image_size_size'], ['loading' => 'eager']);
                         ?>
                     </div>
@@ -207,7 +224,7 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
                     <div class="image-wrap">
                         <?php
                         echo '<a href="' . $product->get_permalink() . '" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">';
-                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.__('Stock ', 'essential-addons-for-elementor-lite'). '<br />' . __('Out', 'essential-addons-for-elementor-lite').'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . __('Sale!', 'essential-addons-for-elementor-lite') . '</span>' : '') );
+                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.$stock_out_badge_text.'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . $sale_badge_text. '</span>' : '') );
                         echo $product->get_image($settings['eael_product_grid_image_size_size'], ['loading' => 'eager']);
                         echo '</a>';
                         ?>
@@ -265,7 +282,7 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
                     <div class="image-wrap">
                         <?php
                         echo '<a href="' . $product->get_permalink() . '" class="woocommerce-LoopProduct-link woocommerce-loop-product__link">';
-                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.__('Stock ', 'essential-addons-for-elementor-lite'). '<br />' . __('Out', 'essential-addons-for-elementor-lite').'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . __('Sale!', 'essential-addons-for-elementor-lite') . '</span>' : '') );
+                        echo ( ! $product->managing_stock() && ! $product->is_in_stock() ? '<span class="eael-onsale outofstock '.$sale_badge_preset.' '.$sale_badge_align.'">'.$stock_out_badge_text.'</span>' : ($product->is_on_sale() ? '<span class="eael-onsale '.$sale_badge_preset.' '.$sale_badge_align.'">' . $sale_badge_text . '</span>' : '') );
                         echo $product->get_image($settings['eael_product_grid_image_size_size'], ['loading' => 'eager']);
                         echo '</a>';
                         ?>
@@ -390,6 +407,7 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
         <?php
     }
 }else {
+
     if($settings['eael_product_grid_rating']!='yes'){
         remove_action('woocommerce_after_shop_loop_item_title','woocommerce_template_loop_rating',5);
     }
@@ -398,7 +416,7 @@ if ( $grid_style_preset == 'eael-product-simple' || $grid_style_preset == 'eael-
         global $product; 
         if(empty($product->is_on_sale())  && !$product->is_in_stock()  ){
           echo '<span class="outofstock-badge">'.__('Stock ', 'essential-addons-for-elementor-lite'). '<br />' . __('Out', 'essential-addons-for-elementor-lite').'</span>';
-        } 
+        }
     },9);
     
     if ( $should_print_compare_btn ) {

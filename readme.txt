@@ -2,9 +2,9 @@
 Contributors: wpdevteam, Codetic, re_enter_rupok, Asif2BD, priyomukul, manzurahammed
 Tags: elementor, elements, addons, elementor addons, elementor widget, elementor form, woocommerce elementor, page builder, builder, visual editor, wordpress page builder
 Requires at least: 5.0
-Tested up to: 5.7.2
+Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 4.7.0
+Stable tag: 4.8.3
 License: GPLv3
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -224,6 +224,100 @@ Your existing elements/content will work with premium version. So you won't lose
 
 
 == Changelog ==
+
+= 4.8.3 - 08/08/2021 =
+
+- Added: EA WooCommerce Widgets | Option to change the 'Stock Out' text
+- Fixed: 'Out of stock' label not displaying in shop page when EA is active
+- Fixed: EA Gravity Forms | File Upload field showing a validation message
+- Fixed: EA Data Table | Text alignment not working in mobile devices
+- Fixed: EA Pricing Table | Ribbon text alignment not changing correctly
+- Fixed: EA Interactive Card | SVG Icon not showing
+- Fixed: EA Facebook Feed | Background & Link colors not working properly
+- Added: EA Event Calendar | Option to change the 'Event Details' text
+- Added: EA Login/Registration | Option to translate reCaptcha
+- Few minor bug fix and improvements
+
+= 4.8.2 - 27/07/2021 =
+
+- Fixed: Asset loading issue with Password Protected plugins
+- Fixed: EA Info Box | SVG icon color not changing
+- Fixed: EA Post Grid | Meta Style color not changing
+- Fixed: EA Woo Product Carousel | 'Quick View' popup not showing properly when multiple images are used
+- Fixed: EA Woo Product Carousel | Draft products being displayed on Edit Mode 
+- Fixed: EA Woo Product Compare | Product Custom Attribute not showing
+- Added: EA Woo Product Grid | Heading tag for 'Quick View' option
+- Added: EA Twitter Feed | 'Read More' text change control
+- Few minor bug fix and improvements
+
+= 4.8.1 - 18/07/2021 =
+
+- Fixed: Broken Shop page layout when Woo Product Carousel is activated
+- Fixed: EA Product Grid | product images being blurry
+- Few minor bug fix and improvements
+
+= 4.8.0 - 14/07/2021 =
+
+- Improved: Reduced data in options table for better performance
+- Few minor bug fix and improvements
+
+= 4.7.5 - 07/07/2021 =
+
+- Improved: EA Simple Menu | Added few more styling controls
+- Fixed: EA Advanced Data Table | Editing not working
+- Fixed: EA Login/Register Form | Login form input field not appearing when used inside Elementor popup
+- Fixed: EA Woo Product Carousel | Products overlapping in Astra theme
+- Fixed: EA Gravity Forms | Preview not showing
+- Fixed: EA Woo Checkout | Product quantity not showing
+- Few minor bug fix and improvements
+
+
+= 4.7.4 - 29/06/2021 =
+
+- Fixed: EA Filterable gallery | Image height not working for "Search and Filter" layout
+- Fixed: EA Login/Register Form | Backslash (\) not working in Login form
+- Fixed: EA Login/Register Form | Shortcode not working inside Header Content
+- Fixed: EA Woo Product Carousel | Cart button default color not changing
+- Fixed: EA Woo Product Carousel | Broken layout on Astra theme
+- Fixed: EA Product Grid | Button styles not working for "Out of Stock" products
+- Fixed: EA Sticky Video | PHP notice when Sticky option is not enabled 
+- Fixed: EA Countdown | Saved Template not working as per the condition
+- Fixed: EA Product Grid | Product Title color not changing on the Quick view Popup section
+- Fixed: EA Flip Box | Zoom out and Fade in effects not working
+- Fixed: EA Filterable Gallery | Videos not working for Card layout
+- Fixed: EA Post Grid | Typography colors not changing
+- Few minor bug fix and improvements
+
+= 4.7.3 - 21/06/2021 =
+
+- Improved: EA Simple Menu | Added more options for Hamburger menu
+- Fixed: Assets not loading properly for private pages
+- Fixed: EA Filterable Gallery | Removed blank space from Filterable controls
+- Few minor bug fix and improvements
+
+= 4.7.2 - 15/06/2021 =
+
+- Improved: WPML Compatibility
+- Fixed: EA Filterable Gallery | Hover overlay color not working in Card view
+- Few minor bug fix and improvements
+
+= 4.7.1 - 07/06/2021 =
+
+- Removed: Elementor  deprecation methods
+- Added: Compatibility with PHP 8.0
+- Added: EA Login/Register Form | Added permission check for security enhancement
+- Fixed: EA Gravity Form | Styles being applied to input fields
+- Fixed: EA Tooltip | Alignment in Responsive Design not working properly
+- Fixed: EA Creative Button | ‘Shikoba’ effect breaking the design
+- Fixed: EA Advanced Accordion | Saved Template is not showing properly
+- Fixed: EA Contact Form 7 | Submit button ‘Full Width’ not working
+- Fixed: EA Countdown | design broken on mobile device
+- Fixed: EA Product Grid | Draft products being displayed
+- Fixed: HTML(inline CSS) not working with <a> tag in some widgets
+- Improved: Added Target_Blank options in post widgets
+- Improved: EA Product Grid | not scrolling to top when you hit the pagination options
+- Removed: EA Progress Bar | Removed duplicate controls
+- Few minor bug fix and improvements
 
 = 4.7.0 - 24/05/2021 =
 

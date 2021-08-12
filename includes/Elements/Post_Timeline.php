@@ -68,6 +68,37 @@ class Post_Timeline extends Widget_Base
         do_action('eael/controls/query', $this);
         do_action('eael/controls/layout', $this);
 
+        $this->start_controls_section(
+            'section_post_timeline_links',
+            [
+                'label' => __('Links', 'essential-addons-for-elementor-lite'),
+            ]
+        );
+
+        $this->add_control(
+            'timeline_link_nofollow',
+            [
+                'label' => __('No Follow', 'essential-addons-for-elementor-lite'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'essential-addons-for-elementor-lite'),
+                'label_off' => __('No', 'essential-addons-for-elementor-lite'),
+                'return_value' => 'true',
+            ]
+        );
+
+        $this->add_control(
+            'timeline_link_target_blank',
+            [
+                'label' => __('Target Blank', 'essential-addons-for-elementor-lite'),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => __('Yes', 'essential-addons-for-elementor-lite'),
+                'label_off' => __('No', 'essential-addons-for-elementor-lite'),
+                'return_value' => 'true',
+            ]
+        );
+
+        $this->end_controls_section();
+
         if (!apply_filters('eael/pro_enabled', false)) {
             HelperClass::go_premium($this);
         }
@@ -449,6 +480,9 @@ class Post_Timeline extends Widget_Base
             <div ' . $this->get_render_attribute_string('eael_post_timeline') . '>';
 
                 $template = $this->get_template($this->get_settings('eael_dynamic_template_Layout'));
+                $settings['loadable_file_name'] = $this->get_filename_only($template);
+	            $dir_name = $this->get_temp_dir_name($settings['loadable_file_name']);
+
                 if(file_exists($template)){
                     $query = new \WP_Query($args);
                     if ($query->have_posts()) {
@@ -466,6 +500,6 @@ class Post_Timeline extends Widget_Base
 		    echo '</div>
 		</div>';
 
-        $this->print_load_more_button($settings, $args, 'free');
+        $this->print_load_more_button($settings, $args, $dir_name);
     }
 }

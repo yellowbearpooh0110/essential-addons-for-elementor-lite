@@ -314,13 +314,13 @@ trait Login_Registration {
 		// Dynamic Password Generation
 		$is_pass_auto_generated = false; // emailing is must for autogen pass
 		if ( ! empty( $_POST['password'] ) ) {
-			$password = wp_unslash( sanitize_text_field( $_POST['password'] ) );
+			$password = sanitize_text_field( $_POST['password'] );
 		} else {
 			$password               = wp_generate_password();
 			$is_pass_auto_generated = true;
 		}
 		if ( isset( $_POST['confirm_pass'] ) ) {
-			$confirm_pass = wp_unslash( sanitize_text_field( $_POST['confirm_pass'] ) );
+			$confirm_pass = sanitize_text_field( $_POST['confirm_pass'] );
 			if ( $confirm_pass !== $password ) {
 				$errors['confirm_pass'] = isset( $settings['err_conf_pass'] ) ? $settings['err_conf_pass'] : __( 'The confirmed password did not match.', 'essential-addons-for-elementor-lite' );
 			}
@@ -413,6 +413,10 @@ trait Login_Registration {
 
         if(!empty($user_default_role) && empty($user_data['role'])){
             $user_data['role'] = $user_default_role;
+        }
+
+        if ('administrator' == strtolower($user_data['role'])) {
+            $user_data['role'] = !empty($settings['register_user_role']) ? $settings['register_user_role'] : get_option('default_role');
         }
 
 		$user_id = wp_insert_user( $user_data );

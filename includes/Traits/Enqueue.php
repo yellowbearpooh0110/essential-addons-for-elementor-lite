@@ -50,7 +50,13 @@ trait Enqueue
 
         // Compatibility: reCaptcha with login/register
         if (in_array('login-register', $widgets) && $site_key = get_option('eael_recaptcha_sitekey')) {
-            wp_register_script('eael-recaptcha', "https://www.google.com/recaptcha/api.js?render=explicit", false, EAEL_PLUGIN_VERSION, false);
+	        $recaptcha_api_args['render'] = 'explicit';
+	        if ( $recaptcha_language = get_option( 'eael_recaptcha_language' ) ) {
+		        $recaptcha_api_args['hl'] = $recaptcha_language;
+	        }
+	        $recaptcha_api_args = apply_filters( 'eael_lr_recaptcha_api_args', $recaptcha_api_args );
+	        $recaptcha_api_args = http_build_query( $recaptcha_api_args );
+            wp_register_script('eael-recaptcha', "https://www.google.com/recaptcha/api.js?{$recaptcha_api_args}", false, EAEL_PLUGIN_VERSION, false);
         }
     }
 
@@ -195,7 +201,7 @@ trait Enqueue
                 $elements = $this->get_settings();
                 $tmp_uid = $this->get_temp_uid();
             } else {
-                $elements = get_option($this->uid . '_elements');
+                $elements = get_option($this->uid . '_eael_elements');
             }
 
             // if no widget in page, return

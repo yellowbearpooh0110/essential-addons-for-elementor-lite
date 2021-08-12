@@ -284,7 +284,7 @@ class Progress_Bar extends Widget_Base
                         ],
                     ],
                     'default' => '1',
-                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-essential-addons-elementor" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
+                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/upgrade/ea-pro" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
                 ]
             );
 
@@ -298,7 +298,7 @@ class Progress_Bar extends Widget_Base
         /**
          * Style Tab: General(Line)
          */
-        $style_condition = apply_filters('eael_progressbar_general_style_condition', ['line', 'line_rainbow']);
+        $style_condition = apply_filters('eael_progressbar_general_style_condition', ['line']);
 
         $this->start_controls_section(
             'progress_bar_section_style_general_line',

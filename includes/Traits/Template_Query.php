@@ -16,6 +16,16 @@ trait Template_Query {
     }
 
     /**
+     * Get only filename
+     * @param   string
+     * @return  string
+     */
+    public function get_filename_only( $path ) {
+        $filename = \explode( '/', $path );
+        return \end( $filename );
+    }
+
+    /**
      * Retrieves Template name from file header.
      *
      * @array
@@ -34,7 +44,7 @@ trait Template_Query {
      */
     private function process_directory_name()
     {
-        if ( empty( $this->current_widget_name ) ) {
+        if ( empty( $this->current_widget_name ) && \method_exists( $this, 'get_name' ) ) {
             $this->current_widget_name = $this->get_name();
         }
         $widget_name = str_replace('eael-', '', $this->current_widget_name);
@@ -243,8 +253,10 @@ trait Template_Query {
      * @return string include-able full template path.
      */
     public function get_template( $filename ) {
+
         if ( in_array( $filename, array_keys( $this->get_template_options() ) ) ) {
-            return $this->get_template_options()[ $filename ];
+            $file = $this->get_template_options()[ $filename ];
+            return $file;
         }
 
         return false;
@@ -261,4 +273,21 @@ trait Template_Query {
         return strtolower( array_pop( $dt ) );
     }
 
+	/**
+	 * Get directory name based on given file name
+	 * @param $filename
+	 * @return int|string
+	 */
+    protected function get_temp_dir_name($filename){
+    	if(empty($filename)){
+    		return 'free';
+	    }
+	    $template_files = array_reverse($this->get_template_files());
+	    foreach ($template_files as $key => $handler) {
+		    if(in_array($filename,$handler)){
+				return $key;
+		    }
+	    }
+	    return 'free';
+    }
 }

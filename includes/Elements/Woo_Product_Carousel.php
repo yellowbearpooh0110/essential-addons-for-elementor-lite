@@ -1390,7 +1390,7 @@ class Woo_Product_Carousel extends Widget_Base {
                 'label'     => esc_html__( 'Color', 'essential-addons-for-elementor-lite' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a' => 'color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -1401,8 +1401,8 @@ class Woo_Product_Carousel extends Widget_Base {
                 'label'     => esc_html__( 'Background Color', 'essential-addons-for-elementor-lite' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .eael-product-carousel .icons-wrap.block-style' => 'background-color: {{VALUE}};',
-                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a'        => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .eael-product-carousel .icons-wrap.block-style' => 'background-color: {{VALUE}} !important;',
+                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a'        => 'background-color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -1472,7 +1472,7 @@ class Woo_Product_Carousel extends Widget_Base {
                 'label'     => esc_html__( 'Color', 'essential-addons-for-elementor-lite' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a:hover' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a:hover' => 'color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -1483,7 +1483,7 @@ class Woo_Product_Carousel extends Widget_Base {
                 'label'     => esc_html__( 'Background Color', 'essential-addons-for-elementor-lite' ),
                 'type'      => Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a:hover' => 'background-color: {{VALUE}};',
+                    '{{WRAPPER}} .eael-product-carousel .icons-wrap li a:hover' => 'background-color: {{VALUE}} !important;',
                 ],
             ]
         );
@@ -3049,6 +3049,7 @@ class Woo_Product_Carousel extends Widget_Base {
 	    $filter                        = $settings[ 'eael_product_carousel_product_filter' ];
 	    $args                         = [
 		    'post_type'      => 'product',
+		    'post_status'    => array( 'publish', 'pending', 'future' ),
 		    'posts_per_page' => $settings[ 'eael_product_carousel_products_count' ] ?: 4,
 		    'order'          => $settings[ 'order' ],
 		    'offset'         => $settings[ 'product_offset' ],

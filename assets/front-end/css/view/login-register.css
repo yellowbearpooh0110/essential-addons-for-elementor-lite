@@ -47,6 +47,9 @@
 .d-none {
   display: none;
 }
+.eael-lr-d-none {
+  display: none;
+}
 .d-ib {
   display: inline-block;
 }
@@ -427,6 +430,9 @@
   .eael-lr-form-wrapper input[type=checkbox].lr-toggle:disabled:not(:checked):after {
     opacity: 0.6;
   }
+}
+.has-illustration .eael-lr-form-wrapper.style-2 {
+  width: 100%;
 }
 .rtl .eael-lr-form-wrapper.style-2 {
   direction: ltr;

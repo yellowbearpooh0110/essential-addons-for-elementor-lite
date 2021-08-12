@@ -740,7 +740,7 @@ class Flip_Box extends Widget_Base
                         ],
                     ],
                     'default'     => '1',
-                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-essential-addons-elementor" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
+                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/upgrade/ea-pro" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
                 ]
             );
 
@@ -1604,7 +1604,7 @@ class Flip_Box extends Widget_Base
                                             <?php if ('before' == $settings['button_icon_position']) {
                                                 $this->render_icon($settings, 'button');
                                             } ?>
-                                            <?php echo esc_attr($settings['flipbox_button_text']); ?>
+                                            <?php echo Helper::eael_wp_kses($settings['flipbox_button_text']); ?>
                                             <?php if ('after' == $settings['button_icon_position']) {
                                                 $this->render_icon($settings, 'button');
                                             } ?>

@@ -672,6 +672,30 @@ trait Controls
                 ]
             );
 
+            if( 'eael-post-block' === $wb->get_name() ) {
+                $wb->add_control(
+                    'post_block_image_height',
+                    [
+                        'label'      => __('Image Height', 'essential-addons-for-elementor-lite'),
+                        'type'       => Controls_Manager::SLIDER,
+                        'range'      => [
+                            'px' => [
+                                'min'  => 0,
+                                'max'  => 600,
+                                'step' => 1,
+                            ],
+                        ],
+                        'size_units' => ['px', 'em', '%'],
+                        'selectors'  => [
+                            '{{WRAPPER}} .eael-entry-thumbnail' => 'height: {{SIZE}}{{UNIT}};',
+                        ],
+                        'condition' => [
+                            'eael_show_image' => 'yes',
+                        ],
+                    ]
+                );
+            }
+
             if( 'eael-post-grid' === $wb->get_name() ) {
                 $wb->add_responsive_control(
                     'postgrid_image_height',
@@ -957,7 +981,10 @@ trait Controls
             );
         }
 
-        if ('eael-post-carousel' === $wb->get_name() || 'eael-post-grid' === $wb->get_name()) {
+        if ( 'eael-post-carousel' === $wb->get_name() || 'eael-post-grid' === $wb->get_name() ) {
+
+	        $eael_show_post_terms_condition = 'eael-post-grid' === $wb->get_name() ? ['eael_show_image' => 'yes'] : [];
+
             $wb->add_control(
                 'eael_show_post_terms',
                 [
@@ -966,9 +993,7 @@ trait Controls
                     'label_on' => __('Show', 'essential-addons-for-elementor-lite'),
                     'label_off' => __('Hide', 'essential-addons-for-elementor-lite'),
                     'return_value' => 'yes',
-                    'condition' => [
-                        'eael_show_image' => 'yes',
-                    ],
+                    'condition' => $eael_show_post_terms_condition,
                 ]
             );
 

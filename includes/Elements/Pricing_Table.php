@@ -203,9 +203,6 @@ class Pricing_Table extends Widget_Base
                 'type'        => Controls_Manager::TEXT,
                 'dynamic'               => [
                     'active'       => true,
-                    'categories'   => [
-                        TagsModule::NUMBER_CATEGORY,
-                    ],
                 ],
                 'label_block' => false,
                 'default'     => esc_html__('99', 'essential-addons-for-elementor-lite'),
@@ -229,9 +226,6 @@ class Pricing_Table extends Widget_Base
                 'type'        => Controls_Manager::TEXT,
                 'dynamic'               => [
                     'active'       => true,
-                    'categories'   => [
-                        TagsModule::NUMBER_CATEGORY,
-                    ],
                 ],
                 'label_block' => false,
                 'default'     => esc_html__('89', 'essential-addons-for-elementor-lite'),
@@ -716,7 +710,7 @@ class Pricing_Table extends Widget_Base
                         ],
                     ],
                     'default'     => '1',
-                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-essential-addons-elementor" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
+                    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/upgrade/ea-pro" target="_blank">Pro version</a> for more stunning elements and customization options.</span>',
                 ]
             );
 
@@ -2045,7 +2039,7 @@ class Pricing_Table extends Widget_Base
                         'pricing_feature_item' . $counter,
                         [
                             'class' => 'tooltip',
-                            'title' => $item['eael_pricing_item_tooltip_content'],
+                            'title' => HelperClass::eael_wp_kses($item['eael_pricing_item_tooltip_content']),
                             'id'    => $obj->get_id() . $counter,
                         ]
                     );
@@ -2106,8 +2100,8 @@ class Pricing_Table extends Widget_Base
     {
         $settings = $this->get_settings_for_display();
         $table_btn_link = $settings['eael_pricing_table_btn_link'];
-        $target = isset($table_btn_link['is_external']) ? 'target="_blank"' : '';
-        $nofollow = isset($table_btn_link['nofollow']) ? 'rel="nofollow"' : '';
+        $target = isset($table_btn_link['is_external']) && !empty($table_btn_link['is_external']) ? 'target="_blank"' : '';
+        $nofollow = isset($table_btn_link['nofollow']) && !empty($table_btn_link['nofollow']) ? 'rel="nofollow"' : '';
         $featured_class = ('yes' === $settings['eael_pricing_table_featured'] ? 'featured ' . $settings['eael_pricing_table_featured_styles'] : '');
         $featured_class .= ($settings['eael_pricing_table_ribbon_alignment'] === 'left' ? ' ribbon-left' : '');
         $inline_style = ($settings['eael_pricing_table_featured_styles'] === 'ribbon-4' && 'yes' === $settings['eael_pricing_table_featured'] ? ' style="overflow: hidden;"' : '');
