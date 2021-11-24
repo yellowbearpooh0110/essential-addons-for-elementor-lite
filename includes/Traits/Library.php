@@ -115,14 +115,16 @@ trait Library
      */
     public function remove_files($uid = null, $ext = ['css', 'js'])
     {
+    	$file_paths = [];
         foreach ($ext as $e) {
             $path = EAEL_ASSET_PATH . DIRECTORY_SEPARATOR . ($uid ? $uid : 'eael') . '.min.' . $e;
 
             if (file_exists($path)) {
                 unlink($path);
+	            $file_paths[] = $path;
             }
         }
-	    do_action( 'eael_remove_assets', $uid, $ext );
+	    do_action( 'eael_remove_assets', $uid, $file_paths );
     }
 
     /**

@@ -175,9 +175,10 @@ trait Enqueue
                 }
 
                 // enqueue
+	            $css_asset_url = apply_filters('eael_css_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.css'), $this->uid );
                 wp_enqueue_style(
                     $this->uid,
-                    $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.css'),
+	                $css_asset_url,
                     false,
                     time()
                 );
@@ -196,9 +197,10 @@ trait Enqueue
                 }
 
                 // enqueue
+	            $js_asset_url = apply_filters('eael_js_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.js'), $this->uid );
                 wp_enqueue_script(
                     $this->uid,
-                    $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.js'),
+	                $js_asset_url,
                     ['jquery'],
                     time(),
                     true
@@ -237,9 +239,10 @@ trait Enqueue
                     }
 
                     // enqueue
+	                $css_asset_url = apply_filters('eael_css_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $tmp_uid . '.min.css'), $this->uid );
                     wp_enqueue_style(
                         $this->uid,
-                        $this->safe_url(EAEL_ASSET_URL . '/' . $tmp_uid . '.min.css'),
+	                    $css_asset_url,
                         false,
                         time()
                     );
@@ -250,9 +253,10 @@ trait Enqueue
                     }
 
                     // enqueue
+	                $css_asset_url = apply_filters('eael_css_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.css'), $this->uid );
                     wp_enqueue_style(
                         $this->uid,
-                        $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.css'),
+	                    $css_asset_url,
                         false,
                         time()
                     );
@@ -273,9 +277,10 @@ trait Enqueue
                     }
 
                     // enqueue
+	                $js_asset_url = apply_filters('eael_js_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $tmp_uid . '.min.js'), $this->uid );
                     wp_enqueue_script(
                         $this->uid,
-                        $this->safe_url(EAEL_ASSET_URL . '/' . $tmp_uid . '.min.js'),
+	                    $js_asset_url,
                         ['jquery'],
                         time(),
                         true
@@ -287,9 +292,10 @@ trait Enqueue
                     }
 
                     // enqueue
+	                $js_asset_url = apply_filters('eael_js_asset_url', $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.js'), $this->uid );
                     wp_enqueue_script(
                         $this->uid,
-                        $this->safe_url(EAEL_ASSET_URL . '/' . $this->uid . '.min.js'),
+	                    $js_asset_url,
                         ['jquery'],
                         time(),
                         true
