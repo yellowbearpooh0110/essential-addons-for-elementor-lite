@@ -136,7 +136,7 @@ trait Login_Registration {
 			$user_login = sanitize_email( $user_login );
 		}
 
-		$password   = ! empty( $_POST['eael-user-password'] ) ? sanitize_text_field( $_POST['eael-user-password'] ) : '';
+		$password   = ! empty( $_POST['eael-user-password'] ) ? $_POST['eael-user-password'] : '';
 		$rememberme = ! empty( $_POST['eael-rememberme'] ) ? sanitize_text_field( $_POST['eael-rememberme'] ) : '';
 
 		$credentials = [
