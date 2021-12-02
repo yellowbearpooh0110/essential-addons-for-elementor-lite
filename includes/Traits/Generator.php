@@ -68,7 +68,7 @@ trait Generator
         // set request uid
         if ($uid && $this->uid == null) {
             $this->uid = $this->generate_uid($uid);
-            $this->request_requires_update = $this->request_requires_update();
+	        $this->request_requires_update = apply_filters( 'eael/assets/request_requires_update', $this->request_requires_update() );
         }
         //exit;
     }
