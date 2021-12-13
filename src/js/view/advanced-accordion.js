@@ -36,7 +36,8 @@ ea.hooks.addAction("init", "ea", () => {
 			$accordionHeader.click(function (e) {
 				e.preventDefault();
 				
-				var $this = $(this);
+				var $this = $(this),
+				$contentNext = $this.next();
 				
 				if ($accordionType === "accordion") {
 					if ($this.hasClass("show")) {
@@ -66,6 +67,7 @@ ea.hooks.addAction("init", "ea", () => {
 						$this.next().slideDown($accordionSpeed);
 					}
 				}
+				ea.hooks.doAction("ea-advanced-accordion-triggered", $contentNext);
 				ea.hooks.doAction("widgets.reinit",$this.parent());
 			});
 		}

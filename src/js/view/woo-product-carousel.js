@@ -141,6 +141,10 @@ ea.hooks.addAction("init", "ea", () => {
 				}
 			}
 		}
+		
+		if ($autoplay === 0) {
+			$carouselOptions.autoplay = false
+		}
 
 		swiperLoader($wooProductCarousel, $carouselOptions).then((eaelWooProductCarousel) => {
 			if ($autoplay === 0) {
@@ -185,6 +189,15 @@ ea.hooks.addAction("init", "ea", () => {
 				"1"
 			);
 		}
+
+		var WooProductCarouselLoader = function ($src) {
+			if ($($src).find('.eael-woo-product-carousel').length) {
+				swiperLoader($wooProductCarousel, $carouselOptions);
+			}
+		}
+
+		ea.hooks.addAction("ea-advanced-tabs-triggered", "ea", WooProductCarouselLoader);
+		ea.hooks.addAction("ea-advanced-accordion-triggered", "ea", WooProductCarouselLoader);
 
 		const eael_popup = $(document).find(".eael-woocommerce-popup-view");
 		if(eael_popup.length<1){

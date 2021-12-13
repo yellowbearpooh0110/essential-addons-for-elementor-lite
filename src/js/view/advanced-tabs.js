@@ -83,6 +83,8 @@ ea.hooks.addAction("init", "ea", () => {
 					$(this).removeClass("active-default");
 				});
 				
+				ea.hooks.doAction("ea-advanced-tabs-triggered", $(tabsContent).eq(currentTabIndex));
+
 				let $filterGallery = tabsContent
 					.eq(currentTabIndex)
 					.find(".eael-filter-gallery-container"),
