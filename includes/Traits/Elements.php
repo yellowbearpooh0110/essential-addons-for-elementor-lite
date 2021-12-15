@@ -510,7 +510,7 @@ trait Elements
             .eael-toc-global .eael-toc-header,
             .eael-toc-global.collapsed .eael-toc-button
             {
-                background-color:{$eael_toc['eael_ext_table_of_content_header_bg']};
+                background-color:{$eael_toc['eael_ext_table_of_content_header_bg']} !important;
             }
 
             .eael-toc-global {
