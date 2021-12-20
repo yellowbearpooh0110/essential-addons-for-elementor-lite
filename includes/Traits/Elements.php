@@ -393,28 +393,38 @@ trait Elements
         }
 
         // Table of Contents
-        if ($this->get_settings('table-of-content')) {
-            $toc_status = false;
-
-            if (is_object($document)) {
-                $settings_data = $document->get_settings();
+        if ($this->get_settings('table-of-content') == true) {
+            if (isset($document) && is_object($document)) {
+                $document_settings_data_toc = $document->get_settings();
             }
 
-            if (isset($settings_data['eael_ext_table_of_content']) && $settings_data['eael_ext_table_of_content'] == 'yes') {
-                $toc_status = true;
+            $toc_status = $toc_status_global = false;
+            
+            if (isset($document_settings_data_toc['eael_ext_table_of_content']) && $document_settings_data_toc['eael_ext_table_of_content'] == 'yes') {
+                $toc = true;
+                $settings_data_toc = $document_settings_data_toc;
             } elseif (isset($global_settings['eael_ext_table_of_content']['enabled']) && $global_settings['eael_ext_table_of_content']['enabled']) {
-                $toc_status = true;
-                $settings_data = $global_settings['eael_ext_table_of_content'];
+                $toc = true;
+                $toc_global = true;
+                $settings_data_toc = $global_settings['eael_ext_table_of_content'];
             }
-
-            if ($toc_status) {
-                $this->extensions_data = $settings_data;
+            
+            if ($toc) {
+                $this->extensions_data = $settings_data_toc;
                 $el_class = 'eael-toc eael-toc-disable';
-
-                if ($this->get_extensions_value('eael_ext_table_of_content') != 'yes' && !empty($settings_data['enabled'])) {
+                if($toc_global){
+                    //global status is true only when locally table of content is disabled.
                     $el_class .= ' eael-toc-global';
                     $this->toc_global_css($global_settings);
                 }
+
+                $eael_toc = $global_settings['eael_ext_table_of_content'];
+                // $header_typography = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc);
+                // echo "<pre>";
+                // print_r($this->extensions_data);
+                // print_r($header_typography);
+                // print_r($eael_toc);
+                // wp_die('ok');
 
                 $icon = 'fas fa-list';
                 $support_tag = (array) $settings_data['eael_ext_toc_supported_heading_tag'];
@@ -473,8 +483,8 @@ trait Elements
                 }
 
                 if (!empty($table_of_content_html)) {
-                    wp_enqueue_style('eael-table-of-content');
                     wp_enqueue_script('eael-table-of-content');
+                    wp_enqueue_style('eael-table-of-content');
 
                     $html .= $table_of_content_html;
                 }
@@ -506,6 +516,8 @@ trait Elements
         $indicator_size = $eael_toc['eael_ext_toc_indicator_size']['size'];
         $indicator_position = $eael_toc['eael_ext_toc_indicator_position']['size'];
         $close_bt_box_shadow = $eael_toc['eael_ext_table_of_content_close_button_box_shadow'];
+
+        #ToDo: Typography font size works with global settings only.
         $toc_global_css = "
             .eael-toc-global .eael-toc-header,
             .eael-toc-global.collapsed .eael-toc-button
@@ -524,7 +536,7 @@ trait Elements
             .eael-toc-global .eael-toc-header .eael-toc-title,
             .eael-toc-global.collapsed .eael-toc-button
             {
-                color:{$eael_toc['eael_ext_table_of_content_header_text_color']};
+                color:{$eael_toc['eael_ext_table_of_content_header_text_color']} !important;
                 $header_typography
             }
             .eael-toc-global .eael-toc-header {
