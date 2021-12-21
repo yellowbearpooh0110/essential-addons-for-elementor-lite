@@ -90,12 +90,16 @@ html {
 		.eael-toc-button {
 			transform: rotate(90deg);
 			transform-origin: top right;
-			margin-top: 100%;
+			margin-top: 120%;
 		}
 	}
 
 	&.eael-toc-left {
 		left: 0;
+
+		.eael-toc-button {
+			margin-bottom: 120%;
+		}
 	}
 
 	.eael-toc-header {
