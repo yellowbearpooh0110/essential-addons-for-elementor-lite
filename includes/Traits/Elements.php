@@ -419,13 +419,7 @@ trait Elements
                 }
 
                 $eael_toc = $global_settings['eael_ext_table_of_content'];
-                // $header_typography = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc);
-                // echo "<pre>";
-                // print_r($this->extensions_data);
-                // print_r($header_typography);
-                // print_r($eael_toc);
-                // wp_die('ok');
-
+                
                 $icon = 'fas fa-list';
                 $support_tag = (array) $settings_data['eael_ext_toc_supported_heading_tag'];
                 $support_tag = implode(',', array_filter($support_tag));
@@ -508,6 +502,7 @@ trait Elements
         $header_padding = $eael_toc['eael_ext_toc_header_padding'];
         $body_padding = $eael_toc['eael_ext_toc_body_padding'];
         $header_typography = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc);
+        $header_typography_for_button = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc, array('font_size') );
         $list_typography = $this->get_typography_data('eael_ext_table_of_content_list_typography_normal', $eael_toc);
         $box_shadow = $eael_toc['eael_ext_toc_table_box_shadow_box_shadow'];
         $border_radius = $eael_toc['eael_ext_toc_box_border_radius']['size'];
@@ -533,11 +528,15 @@ trait Elements
             .eael-toc-global.eael-sticky {
                 top:{$eael_toc['eael_ext_toc_sticky_offset']['size']}px;
             }
-            .eael-toc-global .eael-toc-header .eael-toc-title,
-            .eael-toc-global.collapsed .eael-toc-button
+            .eael-toc-global .eael-toc-header .eael-toc-title
             {
                 color:{$eael_toc['eael_ext_table_of_content_header_text_color']} !important;
                 $header_typography
+            }
+            .eael-toc-global.collapsed .eael-toc-button
+            {
+                color:{$eael_toc['eael_ext_table_of_content_header_text_color']} !important;
+                $header_typography_for_button
             }
             .eael-toc-global .eael-toc-header {
                 padding:{$header_padding['top']}px {$header_padding['right']}px {$header_padding['bottom']}px {$header_padding['left']}px;

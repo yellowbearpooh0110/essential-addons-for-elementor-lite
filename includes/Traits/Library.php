@@ -56,7 +56,7 @@ trait Library
      * @param $global_data
      * @return string
      */
-    public function get_typography_data($id, $global_data)
+    public function get_typography_data($id, $global_data, $exclude_field_keys = array() )
     {
         $typo_data = '';
         $fields_keys = [
@@ -70,6 +70,8 @@ trait Library
             'line_height',
         ];
 
+        $fields_keys = array_diff($fields_keys, $exclude_field_keys);
+        
         foreach ($fields_keys as $key => $field) {
             $typo_attr = $global_data[$id . '_' . $field];
             $attr = str_replace('_', '-', $field);
