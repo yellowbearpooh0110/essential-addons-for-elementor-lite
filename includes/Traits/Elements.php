@@ -418,8 +418,6 @@ trait Elements
                     $this->toc_global_css($global_settings);
                 }
 
-                $eael_toc = $global_settings['eael_ext_table_of_content'];
-                
                 $icon = 'fas fa-list';
                 $support_tag = (array) $settings_data['eael_ext_toc_supported_heading_tag'];
                 $support_tag = implode(',', array_filter($support_tag));
