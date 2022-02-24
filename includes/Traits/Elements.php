@@ -401,18 +401,18 @@ trait Elements
             $toc_status = $toc_status_global = false;
             
             if (isset($document_settings_data_toc['eael_ext_table_of_content']) && $document_settings_data_toc['eael_ext_table_of_content'] == 'yes') {
-                $toc = true;
+                $toc_status = true;
                 $settings_data_toc = $document_settings_data_toc;
             } elseif (isset($global_settings['eael_ext_table_of_content']['enabled']) && $global_settings['eael_ext_table_of_content']['enabled']) {
-                $toc = true;
-                $toc_global = true;
+                $toc_status = true;
+                $toc_status_global = true;
                 $settings_data_toc = $global_settings['eael_ext_table_of_content'];
             }
             
-            if ($toc) {
+            if ($toc_status) {
                 $this->extensions_data = $settings_data_toc;
                 $el_class = 'eael-toc eael-toc-disable';
-                if($toc_global){
+                if($toc_status_global){
                     //global status is true only when locally table of content is disabled.
                     $el_class .= ' eael-toc-global';
                     $this->toc_global_css($global_settings);
