@@ -105,11 +105,15 @@ html {
   -webkit-transform-origin: top right;
       -ms-transform-origin: top right;
           transform-origin: top right;
-  margin-top: 100%;
+  margin-top: 120%;
 }
 
 .eael-toc.eael-toc-left {
   left: 0;
+}
+
+.eael-toc.eael-toc-left .eael-toc-button {
+  margin-bottom: 120%;
 }
 
 .eael-toc .eael-toc-header {

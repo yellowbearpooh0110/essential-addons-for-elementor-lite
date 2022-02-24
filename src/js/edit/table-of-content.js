@@ -18,6 +18,7 @@ ea.hooks.addAction("editMode.init", "ea", () => {
 	) {
 		var selector = jQuery("#eael-toc");
 		if (newValue === "right") {
+			selector.removeClass("eael-toc-left");
 			selector.addClass("eael-toc-right");
 		} else {
 			selector.removeClass("eael-toc-right");

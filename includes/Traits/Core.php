@@ -197,7 +197,30 @@ trait Core
             }
         }
 
-        //save table of contents global value
+        //Table of Contents global settings : updated on elementor/editor/after_save action
+        $global_settings['eael_ext_table_of_content'] = $this->get_ext_toc_global_settings($post_id, $document, $global_settings);
+
+        //Scroll to Top global settings : updated on elementor/editor/after_save action
+        $global_settings['eael_ext_scroll_to_top'] = $this->get_ext_scroll_to_top_global_settings($post_id, $document, $global_settings);
+        
+        // set editor time
+        update_option('eael_editor_updated_at', strtotime('now'));
+
+        // update options
+        update_option('eael_global_settings', $global_settings);
+    }
+
+    /**
+     * Get global settings of Table of Contents extension
+     * 
+     * @return array
+     * @since v5.0.0
+     */
+    public function get_ext_toc_global_settings($post_id, $document, $global_settings){
+        
+        $global_settings_toc = !empty($global_settings['eael_ext_table_of_content']) ? $global_settings['eael_ext_table_of_content'] : array();
+        $document_settings = $document->get_settings();
+        
         if ($document->get_settings('eael_ext_toc_global') == 'yes' && $document->get_settings('eael_ext_table_of_content') == 'yes') {
             $typography_fields = [
                 'font_family',
@@ -210,9 +233,9 @@ trait Core
                 'line_height',
             ];
 
-            $global_settings['eael_ext_table_of_content'] = [
+            $global_settings_toc = [
                 'post_id' => $post_id,
-                'enabled' => ($document->get_settings('eael_ext_toc_global') == 'yes'),
+                'enabled' => true,
                 'eael_ext_toc_global_display_condition' => $document->get_settings('eael_ext_toc_global_display_condition'),
                 'eael_ext_toc_title' => $document->get_settings('eael_ext_toc_title'),
                 'eael_ext_toc_position' => $document->get_settings('eael_ext_toc_position'),
@@ -227,22 +250,22 @@ trait Core
                 'eael_ext_toc_hide_in_mobile' => $document->get_settings('eael_ext_toc_hide_in_mobile'),
                 'eael_ext_toc_border_border' => $document->get_settings('eael_ext_toc_border_border'),
                 'eael_ext_toc_border_width' => $document->get_settings('eael_ext_toc_border_width'),
-                'eael_ext_toc_border_color' => $document->get_settings('eael_ext_toc_border_color'),
+                'eael_ext_toc_border_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_toc_border_color'),
                 'eael_ext_toc_box_border_radius' => $document->get_settings('eael_ext_toc_box_border_radius'),
                 'eael_ext_toc_sticky_offset' => $document->get_settings('eael_ext_toc_sticky_offset'),
                 'eael_ext_toc_sticky_scroll' => $document->get_settings('eael_ext_toc_sticky_scroll'),
                 'eael_ext_toc_sticky_z_index' => $document->get_settings('eael_ext_toc_sticky_z_index'),
-
+                
                 //toc header setting
                 'eael_ext_table_of_content_header_bg' => $document->get_settings('eael_ext_table_of_content_header_bg'),
-                'eael_ext_table_of_content_header_text_color' => $document->get_settings('eael_ext_table_of_content_header_text_color'),
+                'eael_ext_table_of_content_header_text_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_content_header_text_color'),
                 'eael_ext_table_of_content_header_icon' => $document->get_settings('eael_ext_table_of_content_header_icon'),
                 'eael_ext_toc_header_padding' => $document->get_settings('eael_ext_toc_header_padding'),
                 'eael_ext_toc_width' => $document->get_settings('eael_ext_toc_width'),
 
                 //close button setting
                 'eael_ext_table_of_content_close_button_bg' => $document->get_settings('eael_ext_table_of_content_close_button_bg'),
-                'eael_ext_table_of_content_close_button_text_color' => $document->get_settings('eael_ext_table_of_content_close_button_text_color'),
+                'eael_ext_table_of_content_close_button_text_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_content_close_button_text_color'),
                 'eael_ext_toc_close_button_text_style' => $document->get_settings('eael_ext_toc_close_button_text_style'),
                 'eael_ext_table_of_content_close_button_icon_size' => $document->get_settings('eael_ext_table_of_content_close_button_icon_size'),
                 'eael_ext_table_of_content_close_button_size' => $document->get_settings('eael_ext_table_of_content_close_button_size'),
@@ -259,38 +282,36 @@ trait Core
                 'eael_ext_toc_top_level_space' => $document->get_settings('eael_ext_toc_top_level_space'),
                 'eael_ext_toc_subitem_level_space' => $document->get_settings('eael_ext_toc_subitem_level_space'),
                 'eael_ext_toc_list_icon' => $document->get_settings('eael_ext_toc_list_icon'),
-                'eael_ext_table_of_content_list_text_color' => $document->get_settings('eael_ext_table_of_content_list_text_color'),
-                'eael_ext_table_of_content_list_text_color_active' => $document->get_settings('eael_ext_table_of_content_list_text_color_active'),
-                'eael_ext_table_of_list_hover_color' => $document->get_settings('eael_ext_table_of_list_hover_color'),
+                'eael_ext_table_of_content_list_text_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_content_list_text_color'),
+                'eael_ext_table_of_content_list_text_color_active' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_content_list_text_color_active'),
+                'eael_ext_table_of_list_hover_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_list_hover_color'),
                 'eael_ext_table_of_content_list_separator_style' => $document->get_settings('eael_ext_table_of_content_list_separator_style'),
-                'eael_ext_table_of_content_list_separator_color' => $document->get_settings('eael_ext_table_of_content_list_separator_color'),
+                'eael_ext_table_of_content_list_separator_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_table_of_content_list_separator_color'),
                 'eael_ext_toc_box_list_bullet_size' => $document->get_settings('eael_ext_toc_box_list_bullet_size'),
                 'eael_ext_toc_box_list_top_position' => $document->get_settings('eael_ext_toc_box_list_top_position'),
                 'eael_ext_toc_indicator_size' => $document->get_settings('eael_ext_toc_indicator_size'),
                 'eael_ext_toc_indicator_position' => $document->get_settings('eael_ext_toc_indicator_position'),
             ];
+
             foreach ($typography_fields as $typography_field) {
                 $header_fields_attr = 'eael_ext_table_of_content_header_typography_' . $typography_field;
                 $list_fields_attr = 'eael_ext_table_of_content_list_typography_normal_' . $typography_field;
-                $global_settings['eael_ext_table_of_content'][$header_fields_attr] = $document->get_settings($header_fields_attr);
-                $global_settings['eael_ext_table_of_content'][$list_fields_attr] = $document->get_settings($list_fields_attr);
+                $global_settings_toc[$header_fields_attr] = $document->get_settings($header_fields_attr);
+                $global_settings_toc[$list_fields_attr] = $document->get_settings($list_fields_attr);
             }
+
         } else {
             if (isset($global_settings['eael_ext_table_of_content']['post_id']) && $global_settings['eael_ext_table_of_content']['post_id'] == $post_id) {
-                $global_settings['eael_ext_table_of_content'] = [];
+                $global_settings_toc = [
+                    'post_id' => null,
+                    'enabled' => false,
+                ];
             }
         }
 
-        //Scroll to Top global settings : updated on elementor/editor/after_save action
-        $global_settings['eael_ext_scroll_to_top'] = $this->get_ext_scroll_to_top_global_settings($post_id, $document, $global_settings);
-        
-        // set editor time
-        update_option('eael_editor_updated_at', strtotime('now'));
-
-        // update options
-        update_option('eael_global_settings', $global_settings);
+        return $global_settings_toc;
     }
-
+    
     /**
      * Get global settings of Scroll to Top extension
      * 
@@ -318,8 +339,8 @@ trait Core
                 'eael_ext_scroll_to_top_button_icon_image' => $document->get_settings('eael_ext_scroll_to_top_button_icon_image'),
                 'eael_ext_scroll_to_top_button_icon_size' => $document->get_settings('eael_ext_scroll_to_top_button_icon_size'),
                 'eael_ext_scroll_to_top_button_icon_svg_size' => $document->get_settings('eael_ext_scroll_to_top_button_icon_svg_size'),
-                'eael_ext_scroll_to_top_button_icon_color' => $this->eael_ext_stt_fetch_color_or_global_color($document_settings, 'eael_ext_scroll_to_top_button_icon_color'),
-                'eael_ext_scroll_to_top_button_bg_color' => $this->eael_ext_stt_fetch_color_or_global_color($document_settings, 'eael_ext_scroll_to_top_button_bg_color'),
+                'eael_ext_scroll_to_top_button_icon_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_scroll_to_top_button_icon_color'),
+                'eael_ext_scroll_to_top_button_bg_color' => $this->eael_ext_fetch_color_or_global_color($document_settings, 'eael_ext_scroll_to_top_button_bg_color'),
                 'eael_ext_scroll_to_top_button_border_radius' => $document->get_settings('eael_ext_scroll_to_top_button_border_radius'),
             ];
         } else {
@@ -334,7 +355,7 @@ trait Core
         return $global_settings_scroll_to_top;
     }
     
-    public function eael_ext_stt_fetch_color_or_global_color($settings, $control_name=''){
+    public function eael_ext_fetch_color_or_global_color($settings, $control_name=''){
         if( !isset($settings[$control_name])) {
             return '';
         }

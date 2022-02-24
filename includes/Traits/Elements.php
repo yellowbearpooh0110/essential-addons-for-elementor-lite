@@ -400,25 +400,27 @@ trait Elements
         }
 
         // Table of Contents
-        if ($this->get_settings('table-of-content')) {
-            $toc_status = false;
-
-            if (is_object($document)) {
-                $settings_data = $document->get_settings();
+        if ($this->get_settings('table-of-content') == true) {
+            if (isset($document) && is_object($document)) {
+                $document_settings_data_toc = $document->get_settings();
             }
 
-            if (isset($settings_data['eael_ext_table_of_content']) && $settings_data['eael_ext_table_of_content'] == 'yes') {
+            $toc_status = $toc_status_global = false;
+            
+            if (isset($document_settings_data_toc['eael_ext_table_of_content']) && $document_settings_data_toc['eael_ext_table_of_content'] == 'yes') {
                 $toc_status = true;
+                $settings_data_toc = $document_settings_data_toc;
             } elseif (isset($global_settings['eael_ext_table_of_content']['enabled']) && $global_settings['eael_ext_table_of_content']['enabled']) {
                 $toc_status = true;
-                $settings_data = $global_settings['eael_ext_table_of_content'];
+                $toc_status_global = true;
+                $settings_data_toc = $global_settings['eael_ext_table_of_content'];
             }
 
             if ($toc_status) {
-                $this->extensions_data = $settings_data;
+                $this->extensions_data = $settings_data_toc;
                 $el_class = 'eael-toc eael-toc-disable';
-
-                if ($this->get_extensions_value('eael_ext_table_of_content') != 'yes' && !empty($settings_data['enabled'])) {
+                if($toc_status_global){
+                    //global status is true only when locally table of content is disabled.
                     $el_class .= ' eael-toc-global';
                     $this->toc_global_css($global_settings);
                 }
@@ -457,15 +459,15 @@ trait Elements
                     $icon = $icon_check['value'];
                 }
 
-                $table_of_content_html = "<div data-eaelTocTag='".esc_attr( $support_tag )."' data-contentSelector='".esc_attr( $content_selector )."' data-excludeSelector='".esc_attr( $exclude_selector )."' data-stickyScroll='".esc_attr( $sticky_scroll['size'] )."' data-titleUrl='".esc_attr( $title_url )."' data-page_offset='".esc_attr( $page_offset )."' id='eael-toc' class='".esc_attr( $el_class )." '>
+                $table_of_content_html = "<div data-eaelTocTag='{$support_tag}' data-contentSelector='{$content_selector}' data-excludeSelector='{$exclude_selector}' data-stickyScroll='{$sticky_scroll['size']}' data-titleUrl='{$title_url}' data-page_offset='{$page_offset}' id='eael-toc' class='{$el_class} '>
                     <div class='eael-toc-header'>
                             <span class='eael-toc-close'>×</span>
                             <h2 class='eael-toc-title'>{$toc_title}</h2>
                     </div>
                     <div class='eael-toc-body'>
-                        <ul id='eael-toc-list' class='eael-toc-list ".esc_attr( $toc_style_class )."'></ul>
+                        <ul id='eael-toc-list' class='eael-toc-list {$toc_style_class}'></ul>
                     </div>
-                    <button class='eael-toc-button'><i class='".esc_attr( $icon )."'></i><span>{$toc_title}</span></button>
+                    <button class='eael-toc-button'><i class='{$icon}'></i><span>{$toc_title}</span></button>
                 </div>";
 
                 if ($this->get_extensions_value('eael_ext_table_of_content') != 'yes') {
@@ -480,8 +482,8 @@ trait Elements
                 }
 
                 if (!empty($table_of_content_html)) {
-                    wp_enqueue_style('eael-table-of-content');
                     wp_enqueue_script('eael-table-of-content');
+                    wp_enqueue_style('eael-table-of-content');
 
                     $html .= $table_of_content_html;
                 }
@@ -547,6 +549,7 @@ trait Elements
         $header_padding = $eael_toc['eael_ext_toc_header_padding'];
         $body_padding = $eael_toc['eael_ext_toc_body_padding'];
         $header_typography = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc);
+        $header_typography_for_button = $this->get_typography_data('eael_ext_table_of_content_header_typography', $eael_toc, array('font_size') );
         $list_typography = $this->get_typography_data('eael_ext_table_of_content_list_typography_normal', $eael_toc);
         $box_shadow = $eael_toc['eael_ext_toc_table_box_shadow_box_shadow'];
         $border_radius = $eael_toc['eael_ext_toc_box_border_radius']['size'];
@@ -555,11 +558,13 @@ trait Elements
         $indicator_size = $eael_toc['eael_ext_toc_indicator_size']['size'];
         $indicator_position = $eael_toc['eael_ext_toc_indicator_position']['size'];
         $close_bt_box_shadow = $eael_toc['eael_ext_table_of_content_close_button_box_shadow'];
+        
+        #ToDo: Typography font size works with global settings only.
         $toc_global_css = "
             .eael-toc-global .eael-toc-header,
             .eael-toc-global.collapsed .eael-toc-button
             {
-                background-color:{$eael_toc['eael_ext_table_of_content_header_bg']};
+                background-color:{$eael_toc['eael_ext_table_of_content_header_bg']} !important;
             }
 
             .eael-toc-global {
@@ -568,13 +573,17 @@ trait Elements
             }
 
             .eael-toc-global.eael-sticky {
-                top:{$eael_toc['eael_ext_toc_sticky_offset']['size']};
+                top:{$eael_toc['eael_ext_toc_sticky_offset']['size']}px;
             }
-            .eael-toc-global .eael-toc-header .eael-toc-title,
+            .eael-toc-global .eael-toc-header .eael-toc-title
+            {
+                color:{$eael_toc['eael_ext_table_of_content_header_text_color']} !important;
+                $header_typography
+            }
             .eael-toc-global.collapsed .eael-toc-button
             {
-                color:{$eael_toc['eael_ext_table_of_content_header_text_color']};
-                $header_typography
+                color:{$eael_toc['eael_ext_table_of_content_header_text_color']} !important;
+                $header_typography_for_button
             }
             .eael-toc-global .eael-toc-header {
                 padding:{$header_padding['top']}px {$header_padding['right']}px {$header_padding['bottom']}px {$header_padding['left']}px;

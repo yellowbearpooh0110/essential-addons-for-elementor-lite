@@ -64,7 +64,7 @@ class Table_of_Content
                     'raw' => __('You can modify the Global Table of Contents by <strong><a href="' . get_bloginfo('url') . '/wp-admin/post.php?post=' . $global_settings['eael_ext_table_of_content']['post_id'] . '&action=elementor">Clicking Here</a></strong>', 'essential-addons-for-elementor-lite'),
                     'content_classes' => 'eael-warning',
                     'condition' => [
-                        'eael_ext_table_of_content' => 'yes',
+                        'eael_ext_table_of_content' => '',
                     ],
                 ]
             );
