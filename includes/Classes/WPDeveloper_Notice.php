@@ -663,8 +663,10 @@ class WPDeveloper_Notice {
      * @return void
      */
     protected function update_options_data( $args = array() ){
-        $options_data = $this->get_options_data();
-        $options_data[ $this->plugin_name ] = $args;
+        $options_data = (array)$this->get_options_data();
+	    if ( ! empty( $this->plugin_name ) ) {
+		    $options_data[ $this->plugin_name ] = $args;
+	    }
         update_option( 'wpdeveloper_plugins_data', $options_data );
     }
     /**
