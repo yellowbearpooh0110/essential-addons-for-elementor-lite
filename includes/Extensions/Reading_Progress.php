@@ -142,6 +142,8 @@ class Reading_Progress
                 'selectors' => [
                     '.eael-reading-progress-wrap .eael-reading-progress' => 'height: {{SIZE}}{{UNIT}} !important',
                     '.eael-reading-progress-wrap .eael-reading-progress .eael-reading-progress-fill' => 'height: {{SIZE}}{{UNIT}} !important',
+                    '#eael-reading-progress-'. get_the_ID() .'.eael-reading-progress-wrap .eael-reading-progress' => 'height: {{SIZE}}{{UNIT}} !important',
+                    '#eael-reading-progress-'. get_the_ID() .'.eael-reading-progress-wrap .eael-reading-progress .eael-reading-progress-fill' => 'height: {{SIZE}}{{UNIT}} !important',
                 ],
                 'separator' => 'before',
                 'condition' => [
@@ -158,6 +160,7 @@ class Reading_Progress
                 'default' => '',
                 'selectors' => [
                     '.eael-reading-progress' => 'background-color: {{VALUE}}',
+                    '#eael-reading-progress-'. get_the_ID() .' .eael-reading-progress' => 'background-color: {{VALUE}}',
                 ],
                 'separator' => 'before',
                 'condition' => [
@@ -174,6 +177,7 @@ class Reading_Progress
                 'default' => '#1fd18e',
                 'selectors' => [
                     'div.eael-reading-progress-wrap div.eael-reading-progress div.eael-reading-progress-fill' => 'background-color: {{VALUE}} !important',
+                    'div#eael-reading-progress-'. get_the_ID() .'.eael-reading-progress-wrap div.eael-reading-progress div.eael-reading-progress-fill' => 'background-color: {{VALUE}} !important',
                 ],
                 'separator' => 'before',
                 'condition' => [
@@ -201,6 +205,7 @@ class Reading_Progress
                 ],
                 'selectors' => [
                     '.eael-reading-progress-wrap .eael-reading-progress .eael-reading-progress-fill' => 'transition: width {{SIZE}}ms ease;',
+                    '#eael-reading-progress-'. get_the_ID() .'.eael-reading-progress-wrap .eael-reading-progress .eael-reading-progress-fill' => 'transition: width {{SIZE}}ms ease;',
                 ],
                 'separator' => 'before',
                 'condition' => [
