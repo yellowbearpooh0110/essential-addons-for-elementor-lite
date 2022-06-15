@@ -245,7 +245,7 @@ Your existing elements/content will work with premium version. So you won't lose
 = 5.1.6 - 15/06/2022 =
 
 - Fixed: EA Info Box | HTML tag not working inside Infobox Title
-- Fixed: EA Flip Box | <div> tag being closed incorrectly
+- Fixed: EA Flip Box | div tag being closed incorrectly
 - Few minor bug fixes & improvements
 
 = 5.1.5 - 14/06/2022 =
