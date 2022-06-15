@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Running NPM Install & Build For Gutenberg
+        run: |
+          npm install --silent && npm run build
       - name: Assets Update
         id: assets
         uses: 10up/action-wordpress-plugin-asset-update@stable
