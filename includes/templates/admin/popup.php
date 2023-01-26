@@ -208,23 +208,14 @@
                         <div class="eael-login__setup">
                             <div class="eael-input__inline mb15">
                                 <label><i class="eicon-plus-circle-o mr10"></i><?php _e( 'Text Fields:', 'essential-addons-for-elementor-lite' ); ?></label>
-                                <input name="lr_custom_profile_fields_add" id="lr_custom_profile_fields_add"
-                                        value="<?php echo esc_attr( get_option( 'eael_lr_custom_profile_fields_add' ) ); ?>"
+                                <input name="lr_custom_profile_fields_text" id="lr_custom_profile_fields_text"
+                                        value="<?php echo esc_attr( get_option( 'eael_custom_profile_fields_text' ) ); ?>"
                                         class="eael-form__control" type="text" placeholder="Comma separated labels">
                             </div>
                             <div class="eael-input__inline mb15">
                                 <label><i class="eicon-plus-circle-o mr10"></i><?php _e( 'Img Fields:', 'essential-addons-for-elementor-lite' ); ?></label>
-                                <input name="lr_custom_profile_fields_add" id="lr_custom_profile_fields_add"
-                                        value="<?php echo esc_attr( get_option( 'eael_lr_custom_profile_fields_add' ) ); ?>"
-                                        class="eael-form__control" type="text" placeholder="Comma separated labels">
-                            </div>
-                        </div>
-
-                        <div class="eael-login__setup">
-                            <div class="eael-input__inline mb15">
-                                <label><i class="eicon-minus-circle-o mr10"></i><?php _e( 'Text/Img Fields:', 'essential-addons-for-elementor-lite' ); ?></label>
-                                <input name="lr_custom_profile_fields_delete" id="lr_custom_profile_fields_delete"
-                                        value="<?php echo esc_attr( get_option( 'eael_lr_custom_profile_fields_delete' ) ); ?>"
+                                <input name="lr_custom_profile_fields_img" id="lr_custom_profile_fields_img"
+                                        value="<?php echo esc_attr( get_option( 'eael_custom_profile_fields_img' ) ); ?>"
                                         class="eael-form__control" type="text" placeholder="Comma separated labels">
                             </div>
                         </div>
