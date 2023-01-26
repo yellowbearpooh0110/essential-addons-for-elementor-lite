@@ -206,7 +206,12 @@ class Login_Register extends Widget_Base {
 		];
 
 		if( 'on' === get_option( 'eael_custom_profile_fields' ) ){
-			$eael_form_field_types['eael_phone_number'] = __( 'Phone', 'essential-addons-for-elementor-lite' );
+			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
+			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
+			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text );
+				$eael_form_field_types[ sanitize_text_field( $custom_profile_fields_text_slug ) ] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
+			endforeach;
 		}
 		
 		return apply_filters( 'eael/registration-form-fields', $eael_form_field_types );
