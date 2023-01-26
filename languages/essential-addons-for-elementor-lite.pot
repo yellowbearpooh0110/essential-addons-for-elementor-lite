@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Essential Addons For Elementor Lite
+# Copyright (C) 2023 Essential Addons For Elementor Lite
 # This file is distributed under the same license as the Essential Addons For Elementor Lite package.
 msgid ""
 msgstr ""
@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-22 10:52+0000\n"
+"POT-Creation-Date: 2023-01-26 07:34+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -74,7 +74,7 @@ msgstr ""
 msgid "Install Now!"
 msgstr ""
 
-#: ../includes/Classes/WPDeveloper_Plugin_Installer.php:151, ../includes/Classes/WPDeveloper_Plugin_Installer.php:169, ../includes/Classes/WPDeveloper_Plugin_Installer.php:188, ../includes/Classes/WPDeveloper_Setup_Wizard.php:524, ../includes/Classes/WPDeveloper_Setup_Wizard.php:550, ../includes/Traits/Ajax_Handler.php:817, ../includes/Traits/Ajax_Handler.php:956, ../includes/Traits/Ajax_Handler.php:986, ../includes/Traits/Ajax_Handler.php:1003, ../includes/Traits/Helper.php:337
+#: ../includes/Classes/WPDeveloper_Plugin_Installer.php:151, ../includes/Classes/WPDeveloper_Plugin_Installer.php:169, ../includes/Classes/WPDeveloper_Plugin_Installer.php:188, ../includes/Classes/WPDeveloper_Setup_Wizard.php:524, ../includes/Classes/WPDeveloper_Setup_Wizard.php:550, ../includes/Traits/Ajax_Handler.php:817, ../includes/Traits/Ajax_Handler.php:968, ../includes/Traits/Ajax_Handler.php:998, ../includes/Traits/Ajax_Handler.php:1015, ../includes/Traits/Helper.php:337
 msgid "you are not allowed to do this action"
 msgstr ""
 
@@ -8398,7 +8398,7 @@ msgstr ""
 msgid "Login | Register Form Settings"
 msgstr ""
 
-#: ../includes/Traits/Admin.php:63, ../includes/templates/admin/popup.php:217
+#: ../includes/Traits/Admin.php:63, ../includes/templates/admin/popup.php:234
 msgid "To configure the API Keys, check out this doc"
 msgstr ""
 
@@ -8406,11 +8406,11 @@ msgstr ""
 msgid "To retrieve your API Keys, click here"
 msgstr ""
 
-#: ../includes/Traits/Admin.php:64, ../includes/templates/admin/popup.php:211
+#: ../includes/Traits/Admin.php:64, ../includes/templates/admin/popup.php:228
 msgid "Save"
 msgstr ""
 
-#: ../includes/Traits/Admin.php:65, ../includes/templates/admin/popup.php:213
+#: ../includes/Traits/Admin.php:65, ../includes/templates/admin/popup.php:230
 msgid "Cancel"
 msgstr ""
 
@@ -8958,7 +8958,7 @@ msgstr ""
 msgid "Activated Templately"
 msgstr ""
 
-#: ../includes/Traits/Helper.php:322, ../includes/templates/admin/popup.php:240
+#: ../includes/Traits/Helper.php:322, ../includes/templates/admin/popup.php:257
 msgid "Submit"
 msgstr ""
 
@@ -9084,6 +9084,10 @@ msgstr ""
 
 #: ../includes/Traits/Login_Registration.php:889
 msgid "Invalid user name found!"
+msgstr ""
+
+#: ../includes/Traits/Login_Registration.php:1352
+msgid "Please Enter %s"
 msgstr ""
 
 #: ../includes/Traits/Twitter_Feed.php:154
@@ -9795,7 +9799,15 @@ msgstr ""
 msgid "Fields will be available on both the edit profile page and the EA Login | Register Form."
 msgstr ""
 
-#: ../includes/templates/admin/popup.php:225
+#: ../includes/templates/admin/popup.php:210
+msgid "Text Fields:"
+msgstr ""
+
+#: ../includes/templates/admin/popup.php:216
+msgid "Img Fields:"
+msgstr ""
+
+#: ../includes/templates/admin/popup.php:242
 msgid "Select Post Types"
 msgstr ""
 

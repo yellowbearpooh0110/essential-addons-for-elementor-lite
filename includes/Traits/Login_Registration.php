@@ -1336,15 +1336,23 @@ trait Login_Registration {
 	 */
 	public function eael_extra_user_profile_fields( $user ){ ?>
 		<h3><?php _e("EA Login | Register Form", "blank"); ?></h3>
-
+		<?php 
+			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
+			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
+		?>
 		<table class="form-table">
+		<?php 
+			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text );
+			?>
 		<tr>
-			<th><label for="eael_phone_number"><?php _e("Phone"); ?></label></th>
+			<th><label for="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>"><?php _e( esc_html( $custom_profile_fields_text ) ); ?></label></th>
 			<td>
-				<input type="text" name="eael_phone_number" id="eael_phone_number" value="<?php echo esc_attr( get_the_author_meta( 'eael_phone_number', $user->ID ) ); ?>" class="regular-text" /><br />
-				<p class="description"><?php esc_html_e("Please enter your phone number."); ?></p>
+				<input type="text" name="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" id="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" value="<?php echo esc_attr( get_the_author_meta( 'eael_phone_number', $user->ID ) ); ?>" class="regular-text" /><br />
+				<!-- <p class="description"><?php //printf( __( "Please Enter %s", 'essential-addons-for-elementor-lite'), esc_html( $custom_profile_fields_text )); ?></p> -->
 			</td>
 		</tr>
+		<?php endforeach; ?>
 		</table>
 	<?php }
 
