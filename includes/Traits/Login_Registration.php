@@ -1341,10 +1341,9 @@ trait Login_Registration {
 			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
 		?>
 		<table class="form-table">
-		<?php 
-			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text );
-			?>
+		<?php foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text ); 
+		?>
 		<tr>
 			<th><label for="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>"><?php _e( esc_html( $custom_profile_fields_text ) ); ?></label></th>
 			<td>
@@ -1370,7 +1369,14 @@ trait Login_Registration {
 		if ( !current_user_can( 'edit_user', $user_id ) ) { 
 			return false; 
 		}
-		update_user_meta( $user_id, 'eael_phone_number', $_POST['eael_phone_number'] );
+		
+		$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
+		$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
+
+		foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+			$custom_profile_fields_text_slug = sanitize_text_field( strtolower( $custom_profile_fields_text ) );
+			update_user_meta( $user_id, $custom_profile_fields_text_slug, sanitize_text_field( $_POST[ $custom_profile_fields_text_slug ] ) );
+		endforeach;
 	}
 
 	public function eael_is_phone($phone){
