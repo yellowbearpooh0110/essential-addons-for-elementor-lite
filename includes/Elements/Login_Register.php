@@ -58,6 +58,12 @@ class Login_Register extends Widget_Base {
 	 * @var bool
 	 */
 	protected $should_print_resetpassword_form;
+	
+	/**
+	 * Should reset password form be printed in editor?
+	 * @var bool
+	 */
+	protected $should_print_resetpassword_form_editor;
 	/**
 	 * It contains an array of settings for the display
 	 * @var array
@@ -209,7 +215,7 @@ class Login_Register extends Widget_Base {
 			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
 			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
 			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text );
+				$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( $custom_profile_fields_text ));
 				$eael_form_field_types[ sanitize_text_field( $custom_profile_fields_text_slug ) ] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
 			endforeach;
 		}
@@ -5186,7 +5192,9 @@ class Login_Register extends Widget_Base {
 			$first_name_exists   = 0;
 			$last_name_exists    = 0;
 			$website_exists      = 0;
-			$eael_phone_number_exists = 0;
+			
+			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
+			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
 			
 			$f_labels            = [
 				'email'            => __( 'Email', 'essential-addons-for-elementor-lite' ),
@@ -5196,8 +5204,16 @@ class Login_Register extends Widget_Base {
 				'first_name'       => __( 'First Name', 'essential-addons-for-elementor-lite' ),
 				'last_name'        => __( 'Last Name', 'essential-addons-for-elementor-lite' ),
 				'website'          => __( 'Website', 'essential-addons-for-elementor-lite' ),
-				'eael_phone_number'          => __( 'Phone', 'essential-addons-for-elementor-lite' ),
 			];
+
+			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+				$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
+				$f_labels[$custom_profile_fields_text_slug] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
+
+				$custom_profile_fields_text_slug = $custom_profile_fields_text_slug . '_exists';
+				$$custom_profile_fields_text_slug = 0; // dynamic variable
+			endforeach;
+
 			$repeated_f_labels   = [];
 
 
@@ -5301,7 +5317,6 @@ class Login_Register extends Widget_Base {
 
 								// determine proper input tag type
 								switch ( $field_type ) {
-									case 'eael_phone_number':
 									case 'user_name':
 									case 'first_name':
 									case 'last_name':
@@ -5316,6 +5331,13 @@ class Login_Register extends Widget_Base {
 									default:
 										$field_input_type = $field_type;
 								}
+
+								foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
+									$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
+									if ( $custom_profile_fields_text_slug === $field_type ) {
+										$field_input_type = 'text';
+									}
+								endforeach;
 
 								$this->add_render_attribute( [
 									$input_key => [

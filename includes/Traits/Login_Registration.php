@@ -1342,15 +1342,15 @@ trait Login_Registration {
 		?>
 		<table class="form-table">
 		<?php foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = strtolower( $custom_profile_fields_text ); 
+				$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) )); 
 		?>
-		<tr>
-			<th><label for="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>"><?php _e( esc_html( $custom_profile_fields_text ) ); ?></label></th>
-			<td>
-				<input type="text" name="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" id="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" value="<?php echo esc_attr( get_the_author_meta( 'eael_phone_number', $user->ID ) ); ?>" class="regular-text" /><br />
-				<!-- <p class="description"><?php //printf( __( "Please Enter %s", 'essential-addons-for-elementor-lite'), esc_html( $custom_profile_fields_text )); ?></p> -->
-			</td>
-		</tr>
+			<tr>
+				<th><label for="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>"><?php _e( esc_html( $custom_profile_fields_text ) ); ?></label></th>
+				<td>
+					<input type="text" name="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" id="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" value="<?php echo esc_attr( get_the_author_meta( $custom_profile_fields_text_slug, $user->ID ) ); ?>" class="regular-text" /><br />
+					<!-- <p class="description"><?php //printf( __( "Please Enter %s", 'essential-addons-for-elementor-lite'), esc_html( $custom_profile_fields_text )); ?></p> -->
+				</td>
+			</tr>
 		<?php endforeach; ?>
 		</table>
 	<?php }
@@ -1374,7 +1374,7 @@ trait Login_Registration {
 		$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
 
 		foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-			$custom_profile_fields_text_slug = sanitize_text_field( strtolower( $custom_profile_fields_text ) );
+			$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
 			update_user_meta( $user_id, $custom_profile_fields_text_slug, sanitize_text_field( $_POST[ $custom_profile_fields_text_slug ] ) );
 		endforeach;
 	}
