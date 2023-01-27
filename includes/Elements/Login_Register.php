@@ -215,11 +215,11 @@ class Login_Register extends Widget_Base {
 			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
 			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
 			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( $custom_profile_fields_text ));
+				$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( $custom_profile_fields_text ), ' ' ) );
 				$eael_form_field_types[ sanitize_text_field( $custom_profile_fields_text_slug ) ] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
 			endforeach;
 		}
-		
+
 		return apply_filters( 'eael/registration-form-fields', $eael_form_field_types );
 	}
 
@@ -5207,7 +5207,7 @@ class Login_Register extends Widget_Base {
 			];
 
 			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
+				$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ));
 				$f_labels[$custom_profile_fields_text_slug] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
 
 				$custom_profile_fields_text_slug = $custom_profile_fields_text_slug . '_exists';
@@ -5333,7 +5333,7 @@ class Login_Register extends Widget_Base {
 								}
 
 								foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-									$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
+									$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ) );
 									if ( $custom_profile_fields_text_slug === $field_type ) {
 										$field_input_type = 'text';
 									}
