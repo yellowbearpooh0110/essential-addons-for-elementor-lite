@@ -1346,22 +1346,24 @@ trait Login_Registration {
 	 */
 	public function eael_extra_user_profile_fields( $user ){ ?>
 		<h3><?php _e("EA Login | Register Form", "blank"); ?></h3>
-		<?php 
-			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
-			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
-		?>
+		<?php $eael_custom_profile_fields = $this->get_eael_custom_profile_fields('all'); ?>
+
 		<table class="form-table">
-		<?php foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ) ); 
+		<?php 
+		if( count( $eael_custom_profile_fields ) ) :
+			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ) : 
 		?>
 			<tr>
-				<th><label for="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>"><?php _e( esc_html( $custom_profile_fields_text ) ); ?></label></th>
+				<th><label for="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>"><?php _e( esc_html( $eael_custom_profile_field_value ) ); ?></label></th>
 				<td>
-					<input type="text" name="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" id="<?php echo esc_attr( $custom_profile_fields_text_slug ); ?>" value="<?php echo esc_attr( get_the_author_meta( $custom_profile_fields_text_slug, $user->ID ) ); ?>" class="regular-text" /><br />
+					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>" value="<?php echo esc_attr( get_the_author_meta( $eael_custom_profile_field_key, $user->ID ) ); ?>" class="regular-text" /><br />
 					<!-- <p class="description"><?php //printf( __( "Please Enter %s", 'essential-addons-for-elementor-lite'), esc_html( $custom_profile_fields_text )); ?></p> -->
 				</td>
 			</tr>
-		<?php endforeach; ?>
+		<?php 
+			endforeach; 
+		endif;
+		?>
 		</table>
 	<?php }
 
