@@ -409,7 +409,6 @@ trait Login_Registration {
 		self::$email_options['lastname']            = '';
 		self::$email_options['website']             = '';
 		self::$email_options['password_reset_link'] = '';
-		self::$email_options['eael_phone_number'] = '';
 
 		// handle registration...
 		$user_data = [
@@ -428,8 +427,15 @@ trait Login_Registration {
 			$user_data['user_url'] = self::$email_options['website'] = esc_url_raw( $_POST['website'] );
 		}
 
-		if ( ! empty( $_POST['eael_phone_number'] ) ) {
-			$user_data['eael_phone_number'] = self::$email_options['eael_phone_number'] = sanitize_text_field( $_POST['eael_phone_number'] );
+		$eael_custom_profile_fields = $this->eael_custom_profile_fields();
+		if( count( $eael_custom_profile_fields ) ){
+			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ){
+				self::$email_options[$eael_custom_profile_field_key] = '';
+
+				if ( ! empty( $_POST[ $eael_custom_profile_field_key ] ) ) {
+					$user_data[$eael_custom_profile_field_key] = self::$email_options[$eael_custom_profile_field_key] = sanitize_text_field( $_POST[ $eael_custom_profile_field_key ] );
+				}
+			}
 		}
 
 		$register_actions    = [];
@@ -487,8 +493,12 @@ trait Login_Registration {
 
 		$user_id = wp_insert_user( $user_data );
 
-		if ( ! empty( $user_data['eael_phone_number'] ) ) {
-			update_user_meta( $user_id, 'eael_phone_number', $user_data['eael_phone_number'] );
+		if( count( $eael_custom_profile_fields ) ){
+			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ){
+				if ( ! empty( $user_data[ $eael_custom_profile_field_key ] ) ) {
+					update_user_meta( $user_id, $eael_custom_profile_field_key, $user_data[ $eael_custom_profile_field_key ] );
+				}
+			}
 		}
 
 		do_action( 'eael/login-register/after-insert-user', $user_id, $user_data );
@@ -1394,6 +1404,19 @@ trait Login_Registration {
 		}
 
 		return true;
+	}
+
+	public function eael_custom_profile_fields(){
+		$eael_custom_fields = [];
+		$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
+		$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
+			
+		foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ){
+			$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ));
+			$eael_custom_fields[$custom_profile_fields_text_slug] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
+		} 
+
+		return $eael_custom_fields;
 	}
 
 }
