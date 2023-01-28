@@ -5327,18 +5327,14 @@ class Login_Register extends Widget_Base {
 										$field_input_type = $field_type;
 								}
 
-								foreach( $eael_custom_profile_fields_text as $eael_custom_profile_fields_text_key => $eael_custom_profile_fields_text_value ) {
-									if ( $eael_custom_profile_fields_text_key === $field_type ) {
-										$field_input_type = 'text';
-									}
+								if( ! empty( $eael_custom_profile_fields_text[ $field_type ] ) ){
+									$field_input_type = 'text';
 								}
 
-								foreach( $eael_custom_profile_fields_image as $eael_custom_profile_fields_image_key => $eael_custom_profile_fields_image_value ) {
-									if ( $eael_custom_profile_fields_image_key === $field_type ) {
-										$field_input_type = 'file';
-									}
+								if( ! empty( $eael_custom_profile_fields_image[ $field_type ] ) ){
+									$field_input_type = 'file';
 								}
-
+								
 								$this->add_render_attribute( [
 									$input_key => [
 										'name'        => $field_type,
