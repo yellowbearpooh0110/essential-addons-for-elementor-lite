@@ -1382,13 +1382,28 @@ trait Login_Registration {
 			return false; 
 		}
 		
-		$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
-		$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
+		$eael_custom_profile_fields_text = $this->get_eael_custom_profile_fields('text');
+		$eael_custom_profile_fields_image = $this->get_eael_custom_profile_fields('image');
 
-		foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-			$custom_profile_fields_text_slug = str_replace(' ', '_', strtolower( sanitize_text_field( $custom_profile_fields_text ) ));
-			update_user_meta( $user_id, $custom_profile_fields_text_slug, sanitize_text_field( $_POST[ $custom_profile_fields_text_slug ] ) );
-		endforeach;
+		if( count( $eael_custom_profile_fields_text ) ){
+			foreach( $eael_custom_profile_fields_text as $eael_custom_profile_field_text_key => $eael_custom_profile_field_text_value ){
+				if( empty( $_POST[ $eael_custom_profile_field_text_key ] ) ){
+					continue;
+				}
+
+				update_user_meta( $user_id, $eael_custom_profile_field_text_key, sanitize_text_field( $_POST[ $eael_custom_profile_field_text_key ] ) );
+			}
+		}
+
+		if( count( $eael_custom_profile_fields_image ) ){
+			foreach( $eael_custom_profile_fields_image as $eael_custom_profile_field_image_key => $eael_custom_profile_field_image_value ){
+				if( empty( $_FILES[ $eael_custom_profile_field_image_key ] ) ){
+					continue;
+				}
+
+				update_user_meta( $user_id, $eael_custom_profile_field_image_key, sanitize_text_field( $_FILES[ $eael_custom_profile_field_image_key ] ) );
+			}
+		}
 	}
 
 	public function eael_is_phone($phone){

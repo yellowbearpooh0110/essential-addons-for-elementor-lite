@@ -5200,7 +5200,9 @@ class Login_Register extends Widget_Base {
 			];
 
 			$eael_custom_profile_fields_text = $this->get_eael_custom_profile_fields( 'text' );
-			$eael_custom_profile_fields = $this->get_eael_custom_profile_fields( 'all' );
+			$eael_custom_profile_fields_image = $this->get_eael_custom_profile_fields( 'image' );
+			$eael_custom_profile_fields = array_merge( $eael_custom_profile_fields_text, $eael_custom_profile_fields_image );
+			
 			$f_labels = array_merge($f_labels, $eael_custom_profile_fields);
 
 			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ) {
@@ -5329,8 +5331,12 @@ class Login_Register extends Widget_Base {
 									if ( $eael_custom_profile_fields_text_key === $field_type ) {
 										$field_input_type = 'text';
 									}
+								}
 
-									#ToDo : image field type
+								foreach( $eael_custom_profile_fields_image as $eael_custom_profile_fields_image_key => $eael_custom_profile_fields_image_value ) {
+									if ( $eael_custom_profile_fields_image_key === $field_type ) {
+										$field_input_type = 'file';
+									}
 								}
 
 								$this->add_render_attribute( [
