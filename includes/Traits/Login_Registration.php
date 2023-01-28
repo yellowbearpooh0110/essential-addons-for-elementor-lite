@@ -305,12 +305,12 @@ trait Login_Registration {
 		$settings_register_fields = isset($settings['register_fields']) ? $settings['register_fields'] : array();
 		if( count($settings_register_fields) ){
 			foreach($settings_register_fields as $register_field){
-				if( isset( $register_field['field_type'] ) && 'eael_phone_number' === $register_field['field_type']	){
-					//Phone number field
-					if( !empty( $register_field['required'] ) && 'yes' === $register_field['required'] && empty( $_POST['eael_phone_number'] ) ) {
-						$errors['eael_phone_number'] = isset( $settings['err_phone_number_missing'] ) ? $settings['err_phone_number_missing'] : __( 'Phone number is required', 'essential-addons-for-elementor-lite' );
-					}
-				}
+				// if( isset( $register_field['field_type'] ) && 'eael_phone_number' === $register_field['field_type']	){
+				// 	//Phone number field
+				// 	if( !empty( $register_field['required'] ) && 'yes' === $register_field['required'] && empty( $_POST['eael_phone_number'] ) ) {
+				// 		$errors['eael_phone_number'] = isset( $settings['err_phone_number_missing'] ) ? $settings['err_phone_number_missing'] : __( 'Phone number is required', 'essential-addons-for-elementor-lite' );
+				// 	}
+				// }
 
 				//Validate HTML tags on input fields; Throw error if found (Although we are sanitizing before saving)
 				if( isset( $register_field['field_type'] ) && !empty( $_POST[$register_field['field_type']] ) ){
@@ -333,9 +333,9 @@ trait Login_Registration {
 			}
 		}
 
-		if ( !empty( $_POST['eael_phone_number'] ) && ! $this->eael_is_phone( sanitize_text_field( $_POST['eael_phone_number'] )) ) {
-			$errors['eael_phone_number'] =  isset( $settings['err_phone_number_invalid'] ) ? $settings['err_phone_number_invalid'] : __( 'Invalid phone number provided', 'essential-addons-for-elementor-lite' );
-		}
+		// if ( !empty( $_POST['eael_phone_number'] ) && ! $this->eael_is_phone( sanitize_text_field( $_POST['eael_phone_number'] )) ) {
+		// 	$errors['eael_phone_number'] =  isset( $settings['err_phone_number_invalid'] ) ? $settings['err_phone_number_invalid'] : __( 'Invalid phone number provided', 'essential-addons-for-elementor-lite' );
+		// }
 
 		if ( ! empty( $_POST['email'] ) && is_email( $_POST['email'] ) ) {
 			$email = sanitize_email( $_POST['email'] );
