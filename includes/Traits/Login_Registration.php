@@ -427,7 +427,7 @@ trait Login_Registration {
 			$user_data['user_url'] = self::$email_options['website'] = esc_url_raw( $_POST['website'] );
 		}
 
-		$eael_custom_profile_fields = $this->eael_custom_profile_fields();
+		$eael_custom_profile_fields = $this->get_eael_custom_profile_fields();
 		if( count( $eael_custom_profile_fields ) ){
 			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ){
 				self::$email_options[$eael_custom_profile_field_key] = '';
@@ -1406,7 +1406,7 @@ trait Login_Registration {
 		return true;
 	}
 
-	public function eael_custom_profile_fields( $type = 'text' ){
+	public function get_eael_custom_profile_fields( $type = 'text' ){
 		$eael_custom_profile_fields = [];
 		$custom_profile_fields_arr = [];
 

@@ -212,12 +212,8 @@ class Login_Register extends Widget_Base {
 		];
 
 		if( 'on' === get_option( 'eael_custom_profile_fields' ) ){
-			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
-			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
-			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( $custom_profile_fields_text ), ' ' ) );
-				$eael_form_field_types[ sanitize_text_field( $custom_profile_fields_text_slug ) ] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
-			endforeach;
+			$eael_custom_profile_fields = $this->get_eael_custom_profile_fields( 'all' );
+			$eael_form_field_types = array_merge( $eael_form_field_types, $eael_custom_profile_fields );
 		}
 
 		return apply_filters( 'eael/registration-form-fields', $eael_form_field_types );
@@ -5193,9 +5189,6 @@ class Login_Register extends Widget_Base {
 			$last_name_exists    = 0;
 			$website_exists      = 0;
 			
-			$custom_profile_fields_text_arr = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_text' ) ) );
-			$custom_profile_fields_img_arr  = array_unique( explode( ',', get_option( 'eael_custom_profile_fields_img' ) ) );
-			
 			$f_labels            = [
 				'email'            => __( 'Email', 'essential-addons-for-elementor-lite' ),
 				'password'         => __( 'Password', 'essential-addons-for-elementor-lite' ),
@@ -5206,16 +5199,16 @@ class Login_Register extends Widget_Base {
 				'website'          => __( 'Website', 'essential-addons-for-elementor-lite' ),
 			];
 
-			foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-				$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ));
-				$f_labels[$custom_profile_fields_text_slug] = __( esc_html( $custom_profile_fields_text ), 'essential-addons-for-elementor-lite' );
+			$eael_custom_profile_fields_text = $this->get_eael_custom_profile_fields( 'text' );
+			$eael_custom_profile_fields = $this->get_eael_custom_profile_fields( 'all' );
+			$f_labels = array_merge($f_labels, $eael_custom_profile_fields);
 
-				$custom_profile_fields_text_slug = $custom_profile_fields_text_slug . '_exists';
-				$$custom_profile_fields_text_slug = 0; // dynamic variable
-			endforeach;
+			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ) {
+				$eael_custom_profile_field_key_exists = $eael_custom_profile_field_key . '_exists';
+				$$eael_custom_profile_field_key_exists = 0; // dynamic variable
+			}
 
 			$repeated_f_labels   = [];
-
 
 			//Login link related
 			$lgn_link_action = ! empty( $this->ds['login_link_action'] ) ? $this->ds['login_link_action'] : 'form';
@@ -5332,12 +5325,13 @@ class Login_Register extends Widget_Base {
 										$field_input_type = $field_type;
 								}
 
-								foreach( $custom_profile_fields_text_arr as $custom_profile_fields_text ) : 
-									$custom_profile_fields_text_slug = str_replace(' ', '_', trim( strtolower( sanitize_text_field( $custom_profile_fields_text ) ), ' ' ) );
-									if ( $custom_profile_fields_text_slug === $field_type ) {
+								foreach( $eael_custom_profile_fields_text as $eael_custom_profile_fields_text_key => $eael_custom_profile_fields_text_value ) {
+									if ( $eael_custom_profile_fields_text_key === $field_type ) {
 										$field_input_type = 'text';
 									}
-								endforeach;
+
+									#ToDo : image field type
+								}
 
 								$this->add_render_attribute( [
 									$input_key => [
