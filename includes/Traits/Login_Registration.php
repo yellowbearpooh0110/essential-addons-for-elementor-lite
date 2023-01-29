@@ -1366,18 +1366,37 @@ trait Login_Registration {
 	 */
 	public function eael_extra_user_profile_fields( $user ){ ?>
 		<h3><?php _e("EA Login | Register Form", "blank"); ?></h3>
-		<?php $eael_custom_profile_fields = $this->get_eael_custom_profile_fields('all'); ?>
+		<?php $eael_custom_profile_fields_text = $this->get_eael_custom_profile_fields('text'); ?>
+		<?php $eael_custom_profile_fields_image = $this->get_eael_custom_profile_fields('image'); ?>
 
 		<table class="form-table">
 		<?php 
-		if( count( $eael_custom_profile_fields ) ) :
-			foreach( $eael_custom_profile_fields as $eael_custom_profile_field_key => $eael_custom_profile_field_value ) : 
+		if( count( $eael_custom_profile_fields_text ) ) :
+			foreach( $eael_custom_profile_fields_text as $eael_custom_profile_field_text_key => $eael_custom_profile_field_value ) : 
 		?>
 			<tr>
-				<th><label for="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>"><?php _e( esc_html( $eael_custom_profile_field_value ) ); ?></label></th>
+				<th><label for="<?php echo esc_attr( $eael_custom_profile_field_text_key ); ?>"><?php _e( esc_html( $eael_custom_profile_field_value ) ); ?></label></th>
 				<td>
-					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_key ); ?>" value="<?php echo esc_attr( get_the_author_meta( $eael_custom_profile_field_key, $user->ID ) ); ?>" class="regular-text" /><br />
+					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_text_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_text_key ); ?>" value="<?php echo esc_attr( get_the_author_meta( $eael_custom_profile_field_text_key, $user->ID ) ); ?>" class="regular-text" /><br />
 					<!-- <p class="description"><?php //printf( __( "Please Enter %s", 'essential-addons-for-elementor-lite'), esc_html( $custom_profile_fields_text )); ?></p> -->
+				</td>
+			</tr>
+		<?php 
+			endforeach; 
+		endif;
+		?>
+
+		<?php 
+		if( count( $eael_custom_profile_fields_image ) ) :
+			foreach( $eael_custom_profile_fields_image as $eael_custom_profile_field_image_key => $eael_custom_profile_field_value ) : 
+		?>
+			<tr>
+				<th><label for="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>"><?php _e( esc_html( $eael_custom_profile_field_value ) ); ?></label></th>
+				<td>
+					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" value="<?php echo esc_attr( get_the_author_meta( $eael_custom_profile_field_image_key, $user->ID ) ); ?>" class="regular-text" /><br />
+					<p class="description"><?php printf( __( "Enter %s above", 'essential-addons-for-elementor-lite'), esc_html( 'Attachment id' )); ?></p>
+
+					<p><img src="<?php echo esc_attr( wp_get_attachment_image_url( get_the_author_meta( $eael_custom_profile_field_image_key, $user->ID ) ) ); ?>" alt="Image"></p>
 				</td>
 			</tr>
 		<?php 
