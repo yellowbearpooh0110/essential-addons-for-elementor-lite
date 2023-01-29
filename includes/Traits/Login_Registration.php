@@ -429,6 +429,7 @@ trait Login_Registration {
 
 		$eael_custom_profile_fields_text = $this->get_eael_custom_profile_fields('text');
 		$eael_custom_profile_fields_image = $this->get_eael_custom_profile_fields('image');
+		$eael_custom_profile_fields = array_merge( $eael_custom_profile_fields_text, $eael_custom_profile_fields_image );
 		
 		if( count( $eael_custom_profile_fields_text ) ){
 			foreach( $eael_custom_profile_fields_text as $eael_custom_profile_field_text_key => $eael_custom_profile_field_text_value ){
@@ -441,18 +442,22 @@ trait Login_Registration {
 		}
 
 		if( count( $eael_custom_profile_fields_image ) ){
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+			
 			foreach( $eael_custom_profile_fields_image as $eael_custom_profile_field_image_key => $eael_custom_profile_field_value ){
 				self::$email_options[$eael_custom_profile_field_image_key] = '';
 
 				if ( ! empty( $_FILES[ $eael_custom_profile_field_image_key ] ) ) {
-					$user_data[$eael_custom_profile_field_image_key] = self::$email_options[$eael_custom_profile_field_image_key] = sanitize_text_field( $_FILES[ $eael_custom_profile_field_image_key ] );
+					$attachment_id = media_handle_upload( $eael_custom_profile_field_image_key, 0 );
+					if ( ! is_wp_error( $attachment_id ) ) {
+						$user_data[ $eael_custom_profile_field_image_key ] = self::$email_options[$eael_custom_profile_field_image_key] = sanitize_text_field( $attachment_id );
+					}
 				}
 			}
 		}
-
-		print_r($_FILES);
-		print_r($user_data);
-		wp_die('ok');
+		
 		$register_actions    = [];
 		$custom_redirect_url = '';
 		if ( !empty( $settings) ) {
