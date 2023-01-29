@@ -450,9 +450,9 @@ trait Login_Registration {
 			}
 		}
 
-		// print_r($_POST);
-		// print_r($user_data);
-		// wp_die('ok');
+		print_r($_FILES);
+		print_r($user_data);
+		wp_die('ok');
 		$register_actions    = [];
 		$custom_redirect_url = '';
 		if ( !empty( $settings) ) {

@@ -5281,10 +5281,24 @@ class Login_Register extends Widget_Base {
 						<?php
 						$this->print_form_header( 'register' );
 						do_action( 'eael/login-register/before-register-form', $this );
+						
+						$has_file_input = 0;
+						foreach ( $this->ds['register_fields'] as $single_field ) {
+							$single_field_type = $single_field['field_type'];
+
+							if( ! empty( $eael_custom_profile_fields_image[ $single_field_type ] ) ){
+								$has_file_input = 1;
+								break;
+							}
+						}
 						?>
                         <form class="eael-register-form eael-lr-form"
                               id="eael-register-form"
-                              method="post">
+                              method="post"
+							  <?php if ( $has_file_input ) : ?> 
+								enctype="multipart/form-data"
+							  <?php endif; ?>
+							  >
 							<?php do_action( 'eael/login-register/after-register-form-open', $this ); ?>
 							<?php // Print all dynamic fields
 							foreach ( $this->ds['register_fields'] as $f_index => $field ) :
