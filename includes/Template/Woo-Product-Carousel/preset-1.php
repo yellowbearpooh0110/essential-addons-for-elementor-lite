@@ -59,16 +59,23 @@ if ( true === wc_get_loop_product_visibility( $product->get_id() ) || $product->
                 </div>
                 <div class="image-hover-wrap">
                     <ul class="icons-wrap box-style">
+                            <?php if( is_array( $settings['eael_dynamic_template_layout_btns'] ) && in_array( 'cart', $settings['eael_dynamic_template_layout_btns'] ) ): ?>
                             <li class="add-to-cart"><?php woocommerce_template_loop_add_to_cart(); ?></li>
-                            <?php if( $should_print_quick_view ){?>
+                            <?php endif;
+                                if ( is_array( $settings['eael_dynamic_template_layout_btns'] ) && in_array( 'view', $settings['eael_dynamic_template_layout_btns'] ) ){
+                                    if( $should_print_quick_view ){?>
                                 <li class="eael-product-quick-view">
                                     <a id="eael_quick_view_<?php echo uniqid(); ?>" data-quickview-setting="<?php echo htmlspecialchars(json_encode($quick_view_setting),ENT_QUOTES); ?>"
                                        class="open-popup-link">
                                         <i class="fas fa-eye"></i>
                                     </a>
                                 </li>
-                            <?php } ?>
+                            <?php }
+                                }
+                                if ( is_array( $settings['eael_dynamic_template_layout_btns'] ) && in_array( 'link', $settings['eael_dynamic_template_layout_btns'] ) ):
+                                    ?>
                             <li class="view-details" title="Details"><?php echo '<a href="' . $product->get_permalink() . '"><i class="fas fa-link"></i></a>'; ?></li>
+                                    <?php endif; ?>
                         </ul>
                     <?php
                     ?>

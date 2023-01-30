@@ -221,6 +221,20 @@ class Woo_Product_Carousel extends Widget_Base {
 			    'options' => $this->get_template_list_for_dropdown(true),
 		    ]
 	    );
+        $this->add_control(
+            'eael_dynamic_template_layout_btns',
+            [
+                'label'   => esc_html__( 'Floating Buttons', 'essential-addons-for-elementor-lite' ),
+                'type'    => Controls_Manager::SELECT2,
+                'default' => '',
+                'multiple' => true,
+                'options' => [
+                    'cart' => __( 'Cart', 'essential-addons-for-elementor-lite' ),
+                    'view' => __( 'View', 'essential-addons-for-elementor-lite' ),
+                    'link' => __( 'Link', 'essential-addons-for-elementor-lite' ),
+                ],
+            ]
+        );
 
 	    $this->add_control(
 		    'eael_product_carousel_show_title',
@@ -1143,6 +1157,20 @@ class Woo_Product_Carousel extends Widget_Base {
                 'default'   => '',
                 'selectors' => [
                     '{{WRAPPER}} .eael-product-carousel .price, {{WRAPPER}} .eael-product-carousel .eael-product-price' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .woocommerce ul.products ins .woocommerce-Price-amount.amount' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .woocommerce ul.products .eael-product-price > .woocommerce-Price-amount.amount bdi' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'eael_product_carousel_sale_price',
+            [
+                'label'     => esc_html__( 'Old Price Color', 'essential-addons-for-elementor-lite' ),
+                'type'      => Controls_Manager::COLOR,
+                'default'   => '',
+                'selectors' => [
+                    '{{WRAPPER}} .woocommerce ul.products del .woocommerce-Price-amount.amount' => 'color: {{VALUE}};',
                 ],
             ]
         );
