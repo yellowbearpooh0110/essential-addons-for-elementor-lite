@@ -4939,6 +4939,7 @@ class Login_Register extends Widget_Base {
 		$this->form_logo_pos = ! empty( $this->ds['lr_form_logo_position'] ) ? $this->ds['lr_form_logo_position'] : 'inline';
 		$login_redirect_url = '';
 		$resetpassword_redirect_url = '';
+		
 		if ( ! empty( $this->ds['redirect_after_login'] ) && 'yes' === $this->ds['redirect_after_login'] ) {
 			$login_redirect_url = !empty( $this->ds[ 'redirect_url' ][ 'url' ] ) ? esc_url( $this->ds[ 'redirect_url' ][ 'url' ] ) : '';
 		}
@@ -5907,6 +5908,21 @@ class Login_Register extends Widget_Base {
                        name="redirect_to"
                        value="<?php echo esc_attr( $login_redirect_url ); ?>">
 			<?php }
+
+			if ( ! empty( $this->ds['redirect_based_on_roles'] ) && 'yes' === $this->ds['redirect_based_on_roles'] ) {
+				$user_roles = $this->eael_get_role_names();
+		
+				if( ! empty( $user_roles ) && is_array( $user_roles ) && count( $user_roles ) ){
+					foreach( $user_roles as $user_role_key => $user_role_value ){
+						$login_redirect_url = ! empty( $this->ds['redirect_url_' . esc_html( $user_role_key ) ]['url'] ) ? esc_url( $this->ds['redirect_url_' . esc_html( $user_role_key )]['url'] ) : $login_redirect_url;
+						?>
+						<input type="hidden"
+							name="redirect_to_<?php echo esc_html( $user_role_key ); ?>"
+							value="<?php echo esc_attr( $login_redirect_url ); ?>">
+						<?php 
+					}
+				}				
+			}
 		}
 
 		if ( 'resetpassword' === $form_type ) {
