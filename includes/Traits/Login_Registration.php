@@ -219,7 +219,6 @@ trait Login_Registration {
 	 */
 	public function register_user() {
 		$ajax = wp_doing_ajax();
-
 		// validate & sanitize the request data
 		if ( empty( $_POST['eael-register-nonce'] ) ) {
 			if ( $ajax ) {
@@ -1389,14 +1388,16 @@ trait Login_Registration {
 		<?php 
 		if( count( $eael_custom_profile_fields_image ) ) :
 			foreach( $eael_custom_profile_fields_image as $eael_custom_profile_field_image_key => $eael_custom_profile_field_value ) : 
+				$user_meta_attachment_id = get_the_author_meta( $eael_custom_profile_field_image_key, $user->ID );
 		?>
 			<tr>
 				<th><label for="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>"><?php _e( esc_html( $eael_custom_profile_field_value ) ); ?></label></th>
 				<td>
-					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" value="<?php echo esc_attr( get_the_author_meta( $eael_custom_profile_field_image_key, $user->ID ) ); ?>" class="regular-text" /><br />
+					<input type="text" name="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" id="<?php echo esc_attr( $eael_custom_profile_field_image_key ); ?>" value="<?php echo esc_attr( $user_meta_attachment_id ); ?>" class="regular-text" /><br />
 					<p class="description"><?php printf( __( "Enter %s above", 'essential-addons-for-elementor-lite'), esc_html( 'Attachment id' )); ?></p>
-
-					<p><img src="<?php echo esc_attr( wp_get_attachment_image_url( get_the_author_meta( $eael_custom_profile_field_image_key, $user->ID ) ) ); ?>" alt="Image"></p>
+					<?php if( ! empty( $user_meta_attachment_id ) ): ?>
+					<p><img src="<?php echo esc_attr( wp_get_attachment_image_url( $user_meta_attachment_id ) ); ?>" alt="Image"></p>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php 
