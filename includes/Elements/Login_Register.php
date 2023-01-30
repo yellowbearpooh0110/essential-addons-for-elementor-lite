@@ -15,6 +15,7 @@ use Elementor\Utils;
 use Elementor\Widget_Base;
 use Essential_Addons_Elementor\Classes\Helper as HelperCLass;
 use Essential_Addons_Elementor\Traits\Login_Registration;
+use WP_Roles;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -1382,11 +1383,45 @@ class Login_Register extends Widget_Base {
 				'is_external' => false,
 				'nofollow'    => true,
 			],
-			'separator'     => 'after',
 		] );
+
+		$this->add_control( 'redirect_based_on_roles', [
+			'label' => __( 'Redirect Based On User Roles', 'essential-addons-for-elementor-lite' ),
+			'type'  => Controls_Manager::SWITCHER,
+			'condition' => [
+				'redirect_after_login' => 'yes',
+			]
+		] );
+
+		$user_roles = $this->eael_get_role_names();
+		
+		if( ! empty( $user_roles ) && is_array( $user_roles ) && count( $user_roles ) ){
+			foreach( $user_roles as $user_role_key => $user_role_value ){
+				$this->add_control( 'redirect_url_' . esc_html( $user_role_key ), [
+					'type'          => Controls_Manager::URL,
+					'label'			=> esc_html( __( $user_role_value, 'essential-addons-for-elementor-lite' ) ),
+					'show_external' => false,
+					'placeholder'   => admin_url(),
+					'condition'     => [
+						'redirect_after_login' 		=> 'yes',
+						'redirect_based_on_roles' 	=> 'yes',
+					],
+				] );		
+			}
+		}
 
 		$this->end_controls_section();
 	}
+
+	public function eael_get_role_names() {
+
+		global $wp_roles;
+		
+		if ( ! isset( $wp_roles ) )
+			$wp_roles = new WP_Roles();
+		
+		return $wp_roles->get_names();
+	}	
 
 	protected function social_login_promo() {
 
