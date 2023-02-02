@@ -23,6 +23,22 @@
   margin: 0px;
 }
 
+.eael-filter-gallery-control .display-all {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  padding: 10px 25px;
+  margin: 10px 6px;
+  cursor: pointer;
+  outline: none;
+  background-color: white;
+  border: 1px solid gray;
+  transition: all ease .3s;
+  &:hover {
+    background-color: black;
+    color: white;
+  }
+}
+
 .eael-filter-gallery-control select {
   outline: none;
   list-style: none;

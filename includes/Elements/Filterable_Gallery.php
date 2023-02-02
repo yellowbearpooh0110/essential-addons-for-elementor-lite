@@ -2829,6 +2829,7 @@ class Filterable_Gallery extends Widget_Base
                 };
                 $manufacturers = array_unique(array_map($func, $settings['eael_fg_controls']));
                 ?>
+                <button class="display-all">All</button>
                 <select class="manufacturer-select">
                     <?php
                     foreach ($manufacturers as $key => $manufacturer) :;
@@ -3540,34 +3541,48 @@ class Filterable_Gallery extends Widget_Base
 
                         const displaySelect = (_value) => {
                             $scope.find(".model-select > option").css("display", "none");
-                            $scope
-                                .find(
-                                    `.model-select > option[data-manufacturer="${_value}"]`
-                                )
-                                .css("display", "block");
-                            $scope
-                                .find(".model-select")
-                                .val(
-                                    $scope
+                            if (_value) {
+                                $scope
+                                    .find(
+                                        `.model-select > option[data-manufacturer="${_value}"]`
+                                    )
+                                    .css("display", "block");
+                                $scope
+                                    .find(".model-select")
+                                    .val(
+                                        $scope
+                                        .find(
+                                            `.model-select > option[data-manufacturer="${_value}"]`
+                                        )
+                                        .first()
+                                        .val()
+                                    );
+                                displayGallery($scope
                                     .find(
                                         `.model-select > option[data-manufacturer="${_value}"]`
                                     )
                                     .first()
-                                    .val()
-                                );
-                            displayGallery($scope
-                                .find(
-                                    `.model-select > option[data-manufacturer="${_value}"]`
-                                )
-                                .first()
-                                .val());
+                                    .val());
+                            } else {
+                                $scope
+                                    .find(".manufacturer-select")
+                                    .first()
+                                    .val('');
+                                $scope
+                                    .find(".model-select")
+                                    .val('');
+                                displayGallery('*');
+                            }
                         }
 
                         const manufacturerValue = $scope
                             .find(".manufacturer-select")
-                            .first()
                             .val();
                         displaySelect(manufacturerValue);
+
+                        $scope.on("click", ".display-all", function() {
+                            displaySelect();
+                        });
 
                         $scope.on("change", ".manufacturer-select", function() {
                             displaySelect(this.value);

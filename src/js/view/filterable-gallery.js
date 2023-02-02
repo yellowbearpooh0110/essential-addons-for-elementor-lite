@@ -149,31 +149,38 @@ jQuery(window).on("elementor/frontend/init", function () {
       };
 
       const displaySelect = (_value) => {
-        $scope.find(".model-select > option").css("display", "none");
-        $scope
-          .find(`.model-select > option[data-manufacturer="${_value}"]`)
-          .css("display", "block");
-        $scope
-          .find(".model-select")
-          .val(
+        if (_value) {
+          $scope.find(".model-select > option").css("display", "none");
+          $scope
+            .find(`.model-select > option[data-manufacturer="${_value}"]`)
+            .css("display", "block");
+          $scope
+            .find(".model-select")
+            .val(
+              $scope
+                .find(`.model-select > option[data-manufacturer="${_value}"]`)
+                .first()
+                .val()
+            );
+          displayGallery(
             $scope
               .find(`.model-select > option[data-manufacturer="${_value}"]`)
               .first()
               .val()
           );
-        displayGallery(
-          $scope
-            .find(`.model-select > option[data-manufacturer="${_value}"]`)
-            .first()
-            .val()
-        );
+        } else {
+          $scope.find(".manufacturer-select").first().val("");
+          $scope.find(".model-select").val("");
+          displayGallery("*");
+        }
       };
 
-      const manufacturerValue = $scope
-        .find(".manufacturer-select")
-        .first()
-        .val();
+      const manufacturerValue = $scope.find(".manufacturer-select").val();
       displaySelect(manufacturerValue);
+
+      $scope.on("click", ".display-all", function () {
+        displaySelect();
+      });
 
       $scope.on("change", ".manufacturer-select", function () {
         displaySelect(this.value);
