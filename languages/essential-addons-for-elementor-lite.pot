@@ -1,4 +1,4 @@
-# Copyright (C) 2022 Essential Addons For Elementor Lite
+# Copyright (C) 2023 Essential Addons For Elementor Lite
 # This file is distributed under the same license as the Essential Addons For Elementor Lite package.
 msgid ""
 msgstr ""
@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-12-22 10:52+0000\n"
+"POT-Creation-Date: 2023-01-11 19:42+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -152,7 +152,7 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:173
 msgid ""
-"Enhance your Elementor page building experience with 50+ amazing\n"
+"Enhance your Elementor page building experience with 50+ amazing\n"
 "                        elements & extensions 🔥"
 msgstr ""
 
@@ -162,8 +162,8 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:184
 msgid ""
-"For websites where you want to only use the basic features\n"
-"                    and keep your site lightweight. Most basic elements are\n"
+"For websites where you want to only use the basic features\n"
+"                    and keep your site lightweight. Most basic elements are\n"
 "                    activated in this option."
 msgstr ""
 
@@ -173,8 +173,8 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:196
 msgid ""
-"For advanced users who are trying to build complex websites\n"
-"                    with advanced functionalities with Elementor. All the\n"
+"For advanced users who are trying to build complex websites\n"
+"                    with advanced functionalities with Elementor. All the\n"
 "                    dynamic elements will be activated in this option."
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:208
 msgid ""
-"Pick this option if you want to configure the elements as\n"
+"Pick this option if you want to configure the elements as\n"
 "                    per your wish."
 msgstr ""
 
@@ -194,7 +194,7 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:230
 msgid ""
-"Enable/Disable the elements anytime you want from Essential\n"
+"Enable/Disable the elements anytime you want from Essential\n"
 "                    Addons Dashboard"
 msgstr ""
 
@@ -224,7 +224,7 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:334
 msgid ""
-"Get Access to amazing features and boost your Elementor page\n"
+"Get Access to amazing features and boost your Elementor page\n"
 "                    building experience with Templately 👇"
 msgstr ""
 
@@ -258,10 +258,10 @@ msgstr ""
 
 #: ../includes/Classes/WPDeveloper_Setup_Wizard.php:405
 msgid ""
-"We collect non-sensitive diagnostic data and plugin usage\n"
-"                    information. Your site URL, WordPress & PHP version, plugins &\n"
-"                    themes and email address to send you the discount coupon. This\n"
-"                    data lets us make sure this plugin always stays compatible with\n"
+"We collect non-sensitive diagnostic data and plugin usage\n"
+"                    information. Your site URL, WordPress & PHP version, plugins &\n"
+"                    themes and email address to send you the discount coupon. This\n"
+"                    data lets us make sure this plugin always stays compatible with\n"
 "                    the most popular plugins and themes. No spam, we promise."
 msgstr ""
 
@@ -8812,9 +8812,9 @@ msgstr ""
 
 #: ../includes/Traits/Core.php:133
 msgid ""
-"We collect non-sensitive diagnostic data and plugin usage information.\n"
-"            Your site URL, WordPress & PHP version, plugins & themes and email address to send you the\n"
-"            discount coupon. This data lets us make sure this plugin always stays compatible with the most\n"
+"We collect non-sensitive diagnostic data and plugin usage information.\n"
+"            Your site URL, WordPress & PHP version, plugins & themes and email address to send you the\n"
+"            discount coupon. This data lets us make sure this plugin always stays compatible with the most\n"
 "            popular plugins and themes. No spam, I promise."
 msgstr ""
 
@@ -9616,7 +9616,7 @@ msgstr ""
 
 #: ../includes/templates/admin/general.php:7
 msgid ""
-"Check out the changes & features we have added with our\n"
+"Check out the changes & features we have added with our\n"
 "                        new updates"
 msgstr ""
 
@@ -9634,8 +9634,8 @@ msgstr ""
 
 #: ../includes/templates/admin/general.php:20
 msgid ""
-"Ready Templates Built With Elementor &\n"
-"                        Essential\n"
+"Ready Templates Built With Elementor &\n"
+"                        Essential\n"
 "                        Addons From Templately."
 msgstr ""
 
@@ -9713,7 +9713,7 @@ msgstr ""
 
 #: ../includes/templates/admin/go-pro.php:57
 msgid ""
-"View\n"
+"View\n"
 "                            Demo"
 msgstr ""
 
@@ -9727,9 +9727,9 @@ msgstr ""
 
 #: ../includes/templates/admin/go-pro.php:153
 msgid ""
-"Get access to automatic updates & keep your website up-to-date with constantly developing features.\n"
-"                    Having any trouble? Don’t worry as you can reach out to our expert Support team any time through\n"
-"                    live\n"
+"Get access to automatic updates & keep your website up-to-date with constantly developing features.\n"
+"                    Having any trouble? Don’t worry as you can reach out to our expert Support team any time through\n"
+"                    live\n"
 "                    chat or support tickets."
 msgstr ""
 
@@ -9739,7 +9739,7 @@ msgstr ""
 
 #: ../includes/templates/admin/popup.php:16
 msgid ""
-"Upgrade\n"
+"Upgrade\n"
 "                            Now"
 msgstr ""
 
@@ -9805,7 +9805,7 @@ msgstr ""
 
 #: ../includes/templates/admin/tools.php:12
 msgid ""
-"Essential Addons styles & scripts are saved in Uploads folder. This option will clear all\n"
+"Essential Addons styles & scripts are saved in Uploads folder. This option will clear all\n"
 "                                those generated files."
 msgstr ""
 
@@ -9823,8 +9823,8 @@ msgstr ""
 
 #: ../includes/templates/admin/tools.php:44
 msgid ""
-"CSS Print Method is handled by Elementor Settings itself. Use External CSS Files for\n"
-"                                better\n"
+"CSS Print Method is handled by Elementor Settings itself. Use External CSS Files for\n"
+"                                better\n"
 "                                performance (Recommended)."
 msgstr ""
 

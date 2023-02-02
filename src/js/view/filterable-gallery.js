@@ -1,245 +1,308 @@
 jQuery(window).on("elementor/frontend/init", function () {
-	var filterableGalleryHandler = function ($scope, $) {
-		var filterControls = $scope.find(".fg-layout-3-filter-controls").eq(0),
-			filterTrigger  = $scope.find("#fg-filter-trigger"),
-			form          = $scope.find(".fg-layout-3-search-box"),
-			input         = $scope.find("#fg-search-box-input"),
-			searchRegex,
-			buttonFilter,
-			timer;
+  var filterableGalleryHandler = function ($scope, $) {
+    var filterControls = $scope.find(".fg-layout-3-filter-controls").eq(0),
+      filterTrigger = $scope.find("#fg-filter-trigger"),
+      form = $scope.find(".fg-layout-3-search-box"),
+      input = $scope.find("#fg-search-box-input"),
+      searchRegex,
+      buttonFilter,
+      timer;
 
-		if (form.length) {
-			form.on("submit", function (e) {
-				e.preventDefault();
-			});
-		}
+    if (form.length) {
+      form.on("submit", function (e) {
+        e.preventDefault();
+      });
+    }
 
-		filterTrigger.on("click", function () {
-			filterControls.toggleClass("open-filters");
-		});
-		
-		filterTrigger.on("blur",function () {
-			filterControls.removeClass("open-filters");
-		});
+    filterTrigger.on("click", function () {
+      filterControls.toggleClass("open-filters");
+    });
 
-		if (!isEditMode) {
-			var $gallery         = $(".eael-filter-gallery-container", $scope),
-				$settings        = $gallery.data("settings"),
-				fg_items = $gallery_items   = $gallery.data("gallery-items"),
-				$layout_mode     = $settings.grid_style === "masonry" ? "masonry" : "fitRows",
-				$gallery_enabled = ($settings.gallery_enabled === "yes"),
-				$images_per_page = $gallery.data("images-per-page"),
-				$init_show_setting     = $gallery.data("init-show");
-				fg_items.splice(0, $init_show_setting)
-			// init isotope
-			let gwrap = $(".eael-filter-gallery-wrapper");
-			var layoutMode       = gwrap.data("layout-mode");
-			var mfpCaption       = gwrap.data("mfp_caption");
-			var $isotope_gallery = $gallery.isotope({
-				itemSelector: ".eael-filterable-gallery-item-wrap",
-				layoutMode: $layout_mode,
-				percentPosition: true,
-				stagger: 30,
-				transitionDuration: $settings.duration + "ms",
-				filter: function () {
-					var $this   = $(this);
-					var $result = searchRegex ? $this.text().match(searchRegex) : true;
-					if (buttonFilter === undefined) {
-						if (layoutMode !== "layout_3") {
-							buttonFilter = $scope
-								.find(".eael-filter-gallery-control ul li")
-								.first()
-								.data("filter");
-						} else {
-							buttonFilter = $scope
-								.find(".fg-layout-3-filter-controls li")
-								.first()
-								.data("filter");
-						}
-					}
-					var buttonResult = buttonFilter ? $this.is(buttonFilter) : true;
-					return $result && buttonResult;
-				}
-			});
+    filterTrigger.on("blur", function () {
+      filterControls.removeClass("open-filters");
+    });
 
-			// Popup
-			$($scope).magnificPopup({
-				delegate: ".eael-magnific-link.active",
-				type: "image",
-				gallery: {
-					enabled: $gallery_enabled
-				},
-				image: {
-					titleSrc: function (item) {
-						if (mfpCaption === "yes") {
-							return item.el.parents('.gallery-item-caption-over').find('.fg-item-title').html() || item.el.parents('.gallery-item-caption-wrap').find('.fg-item-title').html() || item.el.parents('.eael-filterable-gallery-item-wrap').find('.fg-item-title').html();
-						}
-					}
-				}
-			});
+    if (!isEditMode) {
+      var $gallery = $(".eael-filter-gallery-container", $scope),
+        $settings = $gallery.data("settings"),
+        fg_items = ($gallery_items = $gallery.data("gallery-items")),
+        $layout_mode =
+          $settings.grid_style === "masonry" ? "masonry" : "fitRows",
+        $gallery_enabled = $settings.gallery_enabled === "yes",
+        $images_per_page = $gallery.data("images-per-page"),
+        $init_show_setting = $gallery.data("init-show");
+      fg_items.splice(0, $init_show_setting);
+      // init isotope
+      let gwrap = $(".eael-filter-gallery-wrapper");
+      var layoutMode = gwrap.data("layout-mode");
+      var mfpCaption = gwrap.data("mfp_caption");
+      var $isotope_gallery = $gallery.isotope({
+        itemSelector: ".eael-filterable-gallery-item-wrap",
+        layoutMode: $layout_mode,
+        percentPosition: true,
+        stagger: 30,
+        transitionDuration: $settings.duration + "ms",
+        filter: function () {
+          var $this = $(this);
+          var $result = searchRegex ? $this.text().match(searchRegex) : true;
+          if (buttonFilter === undefined) {
+            if (layoutMode !== "layout_3") {
+              buttonFilter = $scope
+                .find(".eael-filter-gallery-control ul li")
+                .first()
+                .data("filter");
+            } else {
+              buttonFilter = $scope
+                .find(".fg-layout-3-filter-controls li")
+                .first()
+                .data("filter");
+            }
+          }
+          var buttonResult = buttonFilter ? $this.is(buttonFilter) : true;
+          return $result && buttonResult;
+        },
+      });
 
-			// filter
-			$scope.on("click", ".control", function () {
-				var $this    = $(this);
-				buttonFilter = $(this).attr("data-filter");
-				let initData = $(".eael-filter-gallery-container .eael-filterable-gallery-item-wrap"+buttonFilter,$scope).length;
-				let $tspan = $scope.find("#fg-filter-trigger > span");
-				if ($tspan.length) {
-					$tspan.text($this.text());
-				}
-				const firstInit = parseInt($this.data('first-init'));
-				
-				if(!firstInit){
-					$this.data('first-init', 1);
-					let item_found = initData;
-					let index_list = $items =  [];
+      // Popup
+      $($scope).magnificPopup({
+        delegate: ".eael-magnific-link.active",
+        type: "image",
+        gallery: {
+          enabled: $gallery_enabled,
+        },
+        image: {
+          titleSrc: function (item) {
+            if (mfpCaption === "yes") {
+              return (
+                item.el
+                  .parents(".gallery-item-caption-over")
+                  .find(".fg-item-title")
+                  .html() ||
+                item.el
+                  .parents(".gallery-item-caption-wrap")
+                  .find(".fg-item-title")
+                  .html() ||
+                item.el
+                  .parents(".eael-filterable-gallery-item-wrap")
+                  .find(".fg-item-title")
+                  .html()
+              );
+            }
+          },
+        },
+      });
 
-					if (item_found < $images_per_page) {
-						for (const [index, item] of fg_items.entries()) {
-							if (buttonFilter !== '' && buttonFilter !== '*') {
-								let element = $($(item)[0]);
-								if (element.is(buttonFilter)) {
-									++item_found;
-									$items.push($(item)[0]);
-									index_list.push(index);
-								}
-							}
+      const displayGallery = (_filter) => {
+        buttonFilter = _filter;
+        let initData = $(
+          ".eael-filter-gallery-container .eael-filterable-gallery-item-wrap" +
+            buttonFilter,
+          $scope
+        ).length;
 
-							if (item_found >= $images_per_page) {
-								break;
-							}
-						}
-					}
-					
-					if(index_list.length>0){
-						fg_items = fg_items.filter(function (item, index){
-							return !index_list.includes(index);
-						});
-					}
-				}
-				
-				const LoadMoreShow = $(this).data("load-more-status"),
-					 loadMore = $(".eael-gallery-load-more",$scope);
-				
-				//hide load more button if selected control have no item to show
-				if(LoadMoreShow || fg_items.length < 1){
-					loadMore.hide()
-				}else{
-					loadMore.show()
-				}
-				
-				$this.siblings().removeClass("active");
-				$this.addClass("active");
-				if (!firstInit && $items.length > 0) {
-					$isotope_gallery.isotope();
-					$gallery.append($items);
-					$isotope_gallery.isotope('appended', $items);
-					$isotope_gallery.imagesLoaded().progress(function () {
-						$isotope_gallery.isotope("layout");
-					});
-					
-				} else {
-					$isotope_gallery.isotope();
-				}
-			});
+        let item_found = initData;
+        let index_list = ($items = []);
 
-			//quick search
-			input.on("input", function () {
-				var $this = $(this);
+        if (item_found < $images_per_page) {
+          for (const [index, item] of fg_items.entries()) {
+            if (buttonFilter !== "" && buttonFilter !== "*") {
+              let element = $($(item)[0]);
+              if (element.is(buttonFilter)) {
+                ++item_found;
+                $items.push($(item)[0]);
+                index_list.push(index);
+              }
+            }
 
-				clearTimeout(timer);
-				timer = setTimeout(function () {
-					searchRegex = new RegExp($this.val(), "gi");
-					$isotope_gallery.isotope();
-				}, 600);
-			});
+            if (item_found >= $images_per_page) {
+              break;
+            }
+          }
+        }
 
-			// layout gal, while images are loading
-			$isotope_gallery.imagesLoaded().progress(function () {
-				$isotope_gallery.isotope("layout");
-			});
+        if (index_list.length > 0) {
+          fg_items = fg_items.filter(function (item, index) {
+            return !index_list.includes(index);
+          });
+        }
 
-			// layout gal, on click tabs
-			$isotope_gallery.on("arrangeComplete", function () {
-				$isotope_gallery.isotope("layout");
-			});
+        // const LoadMoreShow = $(this).data("load-more-status"),
+        //   loadMore = $(".eael-gallery-load-more", $scope);
 
-			// layout gal, after window loaded
-			$(window).on("load", function () {
-				$isotope_gallery.isotope("layout");
-			});
+        // //hide load more button if selected control have no item to show
+        // if (LoadMoreShow || fg_items.length < 1) {
+        //   loadMore.hide();
+        // } else {
+        //   loadMore.show();
+        // }
 
-			// Load more button
-			$scope.on("click", ".eael-gallery-load-more", function (e) {
-				e.preventDefault();
-				var $this            = $(this),
-					// $init_show       = $(".eael-filter-gallery-container", $scope).children(".eael-filterable-gallery-item-wrap").length,
-					// $total_items     = $gallery.data("total-gallery-items"),
-					$nomore_text     = $gallery.data("nomore-item-text"),
-					filter_enable 	= $(".eael-filter-gallery-control",$scope).length,
-					$items           = [];
-				var filter_name      = $(".eael-filter-gallery-control li.active", $scope).data('filter');
-				if(filterControls.length>0){
-					filter_name = $(".fg-layout-3-filter-controls li.active", $scope).data('filter');
-				}
+        if ($items.length > 0) {
+          $isotope_gallery.isotope();
+          $gallery.append($items);
+          $isotope_gallery.isotope("appended", $items);
+          $isotope_gallery.imagesLoaded().progress(function () {
+            $isotope_gallery.isotope("layout");
+          });
+        } else {
+          $isotope_gallery.isotope();
+        }
+      };
 
-				if (filter_name === undefined) {
-					filter_name = '*';
-				}
+      const displaySelect = (_value) => {
+        $scope.find(".model-select > option").css("display", "none");
+        $scope
+          .find(`.model-select > option[data-manufacturer="${_value}"]`)
+          .css("display", "block");
+        $scope
+          .find(".model-select")
+          .val(
+            $scope
+              .find(`.model-select > option[data-manufacturer="${_value}"]`)
+              .first()
+              .val()
+          );
+        displayGallery(
+          $scope
+            .find(`.model-select > option[data-manufacturer="${_value}"]`)
+            .first()
+            .val()
+        );
+      };
 
-				let item_found = 0;
-				let index_list = []
-				for (const [index, item] of fg_items.entries()){
+      const manufacturerValue = $scope
+        .find(".manufacturer-select")
+        .first()
+        .val();
+      displaySelect(manufacturerValue);
 
-					let element = $($(item)[0]);
-					if (element.is(filter_name)) {
-						++item_found;
-						$items.push($(item)[0]);
-						index_list.push(index);
-					}
-					if (filter_name !== '' && filter_name !== '*' && (fg_items.length-1)===index) {
-							$(".eael-filter-gallery-control li.active", $scope).data('load-more-status',1)
-							$this.hide();
-					}
+      $scope.on("change", ".manufacturer-select", function () {
+        displaySelect(this.value);
+      });
 
-					if (item_found === $images_per_page) {
-						break;
-					}
-				}
+      $scope.on("change", ".model-select", function () {
+        var $this = $(this);
+        let $tspan = $scope.find("#fg-filter-trigger > span");
+        if ($tspan.length) $tspan.text($this.text());
+        displayGallery(this.value);
+      });
 
-				if(index_list.length>0){
-					fg_items = fg_items.filter(function (item, index){
-						return !index_list.includes(index);
-					});
-				}
+      //quick search
+      input.on("input", function () {
+        var $this = $(this);
 
-				if (fg_items.length<1) {
-					$this.html('<div class="no-more-items-text">' + $nomore_text + "</div>");
-					setTimeout(function () {
-						$this.fadeOut("slow");
-					}, 600);
-				}
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+          searchRegex = new RegExp($this.val(), "gi");
+          $isotope_gallery.isotope();
+        }, 600);
+      });
 
-				// append items
-				$gallery.append($items);
-				$isotope_gallery.isotope("appended", $items);
-				$isotope_gallery.imagesLoaded().progress(function () {
-					$isotope_gallery.isotope("layout");
-				});
-			});
+      // layout gal, while images are loading
+      $isotope_gallery.imagesLoaded().progress(function () {
+        $isotope_gallery.isotope("layout");
+      });
 
-			// Fix issue on Safari: hide filter menu
-			$(document).on('mouseup', function(e){
-				if(!filterTrigger.is(e.target) && filterTrigger.has(e.target).length === 0){
-					filterControls.removeClass("open-filters");
-				}
-			});
-		}
-	};
+      // layout gal, on click tabs
+      $isotope_gallery.on("arrangeComplete", function () {
+        $isotope_gallery.isotope("layout");
+      });
 
-	if (ea.elementStatusCheck('eaelFilterableGallery')) {
-		return false;
-	}
+      // layout gal, after window loaded
+      $(window).on("load", function () {
+        $isotope_gallery.isotope("layout");
+      });
 
-	elementorFrontend.hooks.addAction("frontend/element_ready/eael-filterable-gallery.default", filterableGalleryHandler);
+      // Load more button
+      $scope.on("click", ".eael-gallery-load-more", function (e) {
+        e.preventDefault();
+        var $this = $(this),
+          // $init_show       = $(".eael-filter-gallery-container", $scope).children(".eael-filterable-gallery-item-wrap").length,
+          // $total_items     = $gallery.data("total-gallery-items"),
+          $nomore_text = $gallery.data("nomore-item-text"),
+          filter_enable = $(".eael-filter-gallery-control", $scope).length,
+          $items = [];
+        var filter_name = $(
+          ".eael-filter-gallery-control li.active",
+          $scope
+        ).data("filter");
+        if (filterControls.length > 0) {
+          filter_name = $(
+            ".fg-layout-3-filter-controls li.active",
+            $scope
+          ).data("filter");
+        }
+
+        if (filter_name === undefined) {
+          filter_name = "*";
+        }
+
+        let item_found = 0;
+        let index_list = [];
+        for (const [index, item] of fg_items.entries()) {
+          let element = $($(item)[0]);
+          if (element.is(filter_name)) {
+            ++item_found;
+            $items.push($(item)[0]);
+            index_list.push(index);
+          }
+          if (
+            filter_name !== "" &&
+            filter_name !== "*" &&
+            fg_items.length - 1 === index
+          ) {
+            $(".eael-filter-gallery-control select", $scope).data(
+              "load-more-status",
+              1
+            );
+            $this.hide();
+          }
+
+          if (item_found === $images_per_page) {
+            break;
+          }
+        }
+
+        if (index_list.length > 0) {
+          fg_items = fg_items.filter(function (item, index) {
+            return !index_list.includes(index);
+          });
+        }
+
+        if (fg_items.length < 1) {
+          $this.html(
+            '<div class="no-more-items-text">' + $nomore_text + "</div>"
+          );
+          setTimeout(function () {
+            $this.fadeOut("slow");
+          }, 600);
+        }
+
+        // append items
+        $gallery.append($items);
+        $isotope_gallery.isotope("appended", $items);
+        $isotope_gallery.imagesLoaded().progress(function () {
+          $isotope_gallery.isotope("layout");
+        });
+      });
+
+      // Fix issue on Safari: hide filter menu
+      $(document).on("mouseup", function (e) {
+        if (
+          !filterTrigger.is(e.target) &&
+          filterTrigger.has(e.target).length === 0
+        ) {
+          filterControls.removeClass("open-filters");
+        }
+      });
+    }
+  };
+
+  if (ea.elementStatusCheck("eaelFilterableGallery")) {
+    return false;
+  }
+
+  elementorFrontend.hooks.addAction(
+    "frontend/element_ready/eael-filterable-gallery.default",
+    filterableGalleryHandler
+  );
 });
